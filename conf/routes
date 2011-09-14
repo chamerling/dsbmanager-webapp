@@ -2,12 +2,20 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+#Import Secure
+*      /                  module:secure
+
 # Home page
 GET     /                                       Application.index
+GET     /connect                                Application.connect
+GET     /node/connect/{id}                      Application.nodeConnect
+GET     /node/disconnect/{id}                   Application.nodeDisconnect
 GET     /services                               Application.services
 GET     /bind                                   Application.bind
 POST    /postBind                               Application.postBind
 GET     /endpoints                              Application.endpoints
+GET     /jbi                                    Application.jbi
+GET     /jbisa/{saName}                         Application.jbisa
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
@@ -17,3 +25,6 @@ GET     /public/                                staticDir:public
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}
+
+# Import CRUD routes
+*      /admin              module:crud

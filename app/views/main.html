@@ -38,13 +38,14 @@
                 <ul class="menu-dropdown">
                   <li><a href="@{Application.services()}">Services</a></li>
                   <li><a href="@{Application.index()}">Routing</a></li>
-                  <li><a href="@{Application.index()}">JBI</a></li>
+                  <li><a href="@{Application.topology()}">Topology</a></li>
+                  <li><a href="@{Application.jbi()}">JBI</a></li>
                 </ul>
               </li>
             </ul>
           </ul>
           <ul class="nav secondary-nav">
-          	<li><a href="@{Application.index()}">About</a></li>
+          	<li>#{if currentNode}<a href="@{Application.connect()}">Connected to <b>${currentNode?.name}</b></a>#{/if}#{else}<a href="@{Application.connect()}"><b>Connect...</b></a>#{/else}</li>
           </ul>
         </div>
       </div> <!-- /fill -->
@@ -62,6 +63,20 @@
     -->
     
   <div class="container">
+  
+  #{if flash.success}
+	<div class="alert-message success">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.success}</strong></p>
+      </div>
+  #{/if}
+  #{if flash.error}
+	<div class="alert-message error">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.error}</strong></p>
+      </div>
+  #{/if}
+
      #{doLayout /}
   </div>
   </body>

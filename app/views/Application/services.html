@@ -1,23 +1,9 @@
 #{extends 'main.html' /}
-#{set title:'Subscribe' /}
+#{set title:'Services' /}
 
 <div class="page-header">
     <h1>Core Services <small>Management services provided by the kernel</small></h1>
 </div>
-
-
-#{if flash.success}
-	<div class="alert-message success">
-        <a class="close" href="#">&times;</a>
-        <p><strong>${flash.success}</strong></p>
-      </div>
-#{/if}
-#{if flash.error}
-	<div class="alert-message error">
-        <a class="close" href="#">&times;</a>
-        <p><strong>${flash.error}</strong></p>
-      </div>
-#{/if}
 
 #{if services}
 	<table class="zebra-striped">

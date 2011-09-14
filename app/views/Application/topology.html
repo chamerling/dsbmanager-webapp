@@ -1,0 +1,42 @@
+#{extends 'main.html' /}
+#{set title:'Topology' /}
+
+<div class="page-header">
+    <h1>Topology</h1>
+</div>
+
+#{if containers}
+  #{list containers, as : 'c'}
+  <h2>Container ${c.name}</h2>
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Name</b></td>
+            <td>${c.name}</td>
+          </tr>
+          <tr>
+            <td><b>Description</b></td>
+            <td>${c.description}</td>
+          </tr>
+          <tr>
+            <td><b>Host</b></td>
+            <td>${c.host}</td>
+          </tr>
+          <tr>
+            <td><b>User</b></td>
+            <td>${c.user}</td>
+          </tr>
+          <tr>
+            <td><b>Password</b></td>
+            <td>${c.password}</td>
+          </tr>
+        </tbody>
+      </table>
+  #{/list}
+#{/if}

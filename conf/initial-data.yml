@@ -1,34 +1,11 @@
-Endpoint(DSBNotificationProducer):
-     url: http://localhost:8084/petals/services/NotificationProducerPortService
-     type: producer
-     
-Endpoint(DSBNotificationProducer2):
-     url: http://localhost:8085/petals/services/NotificationProducerPortService
-     type: producer
-
-Endpoint(PlayAppWebSocketProducer):
-    url: http://localhost:9000/services/RawService
-    type: producer
-
-Endpoint(DSBNotificationConsumer):
-     url: http://localhost:8084/petals/services/NotificationConsumerPortService
-     type: consumer
-
-Endpoint(PlayAppWebSocketConsumer):
-    url: http://localhost:9000/services/RawService
-    type: consumer
-
-Topic(DSBTopic):
-    name: DSBTopic
-    prefix: dsb
-    uri: http://www.petalslink.org/dsb/topicsns/
-
-Topic(FooTopic):
-    name: FooTopic
-    prefix: foo
-    uri: http://foo/bar
-
-Topic(BarTopic):
-    name: BarTopic
-    prefix: bar
-    uri: http://foo/bar
+Node(Local1):
+    name: LocalNode1
+    baseURL: http://localhost:7600/petals/ws
+    
+Node(Local2):
+    name: LocalNode2
+    baseURL: http://localhost:7601/petals/ws
+    
+Node(Local3):
+    name: LocalNode3
+    baseURL: http://localhost:7602/petals/ws

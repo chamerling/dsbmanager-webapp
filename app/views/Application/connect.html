@@ -1,0 +1,35 @@
+#{extends 'main.html' /}
+#{set title:'Subscribe' /}
+
+<div class="page-header">
+    <h1>Connect <small>to node...</small></h1>
+</div>
+
+<!-- List all the subscriptions -->
+#{if nodes}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Node Name</th>
+            <th>Base URL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list nodes, as : 'n'}
+          <tr>
+            <td><b>${n.name}</b></td>
+            <td>${n.baseURL}</td>
+            <td>
+            #{if n.equals(currentNode)}
+            <a href="@{Application.nodeDisconnect(n.id)}" class="btn error">Disconnect</a>
+            #{/if}
+            #{else}
+            <a href="@{Application.nodeConnect(n.id)}" class="btn info">Connect</a>
+            #{/else}
+            </td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}

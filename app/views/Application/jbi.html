@@ -1,0 +1,74 @@
+#{extends 'main.html' /}
+#{set title:'Java Business Integration' /}
+
+<div class="page-header">
+    <h1>JBI Artifacts <small>Even if...</small></h1>
+</div>
+
+<h2>Components</h2>
+#{if components}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>State</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list components, as : 'c'}
+          <tr>
+            <td><b>${c.name}</b></td>
+            <td>${c.type}</td>
+            <td>${c.state}</td>
+            <td><a href="#" class="btn info">Details</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}
+
+<h2>Service Assemblies</h2>
+#{if sas}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>State</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list sas, as : 'sa'}
+          <tr>
+            <td><b>${sa.name}</b></td>
+            <td>${c.state}</td>
+            <td><a href="@{Application.jbisa(sa.name)}" class="btn info">Details</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}
+
+<h2>Shared Libraries</h2>
+#{if sas}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>State</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list sls, as : 'sl'}
+          <tr>
+            <td><b>${sl.name}</b></td>
+            <td>${sl.state}</td>
+            <td><a href="#" class="btn info">Details</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}

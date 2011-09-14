@@ -5,21 +5,6 @@
     <h1>Endpoint <small>List of all internal endpoints</small></h1>
 </div>
 
-
-#{if flash.success}
-	<div class="alert-message success">
-        <a class="close" href="#">&times;</a>
-        <p><strong>${flash.success}</strong></p>
-      </div>
-#{/if}
-#{if flash.error}
-	<div class="alert-message error">
-        <a class="close" href="#">&times;</a>
-        <p><strong>${flash.error}</strong></p>
-      </div>
-#{/if}
-
-<!-- List all the subscriptions -->
 #{if endpoints}
 	<table class="zebra-striped">
         <thead>

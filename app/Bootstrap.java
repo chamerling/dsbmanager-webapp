@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import models.Node;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
+import play.test.Fixtures;
 
 /**
  * Bootstrap some init data to avoid some useless test for the application long
@@ -27,8 +29,8 @@ public class Bootstrap extends Job {
 
 	@Override
 	public void doJob() throws Exception {
-		//if (Endpoint.count() == 0) {
-			//Fixtures.load("initial-data.yml");
-		//}
+		if (Node.count() == 0) {
+			Fixtures.load("initial-data.yml");
+		}
 	}
 }
