@@ -1,0 +1,59 @@
+#{extends 'main.html' /}
+#{set title:'Subscribe' /}
+
+<div class="page-header">
+    <h1>Bind service</h1>
+</div>
+
+
+#{if flash.success}
+	<div class="alert-message success">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.success}</strong></p>
+      </div>
+#{/if}
+#{if flash.error}
+	<div class="alert-message error">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.error}</strong></p>
+      </div>
+#{/if}
+
+#{form @Application.postBind()}
+		<fieldset>
+				<div class="clearfix">
+        			<label for="topicName">Service WSDL URL</label>
+        			<div class="input">
+        				<input type="text" name="wsdl" id="content" class="xlarge" size="30"/>
+        			</div>
+        		</div>
+         		
+	    		<div class="actions">
+        			<input class="btn primary" type="submit" value="Bind" />
+        			&nbsp;
+        			<button type="reset" class="btn">Cancel</button>
+        		</div>
+        </fieldset>
+#{/form}
+
+<div class="page-header">
+    <h1>Bound services</h1>
+</div>
+#{if services}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Service WSDL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list services, as : 'service'}
+          <tr>
+            <td><a href="${service}">${service}</a></td>
+            <td><a href="#" class="btn info">Details</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}

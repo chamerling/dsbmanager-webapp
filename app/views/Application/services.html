@@ -1,0 +1,39 @@
+#{extends 'main.html' /}
+#{set title:'Subscribe' /}
+
+<div class="page-header">
+    <h1>Core Services <small>Management services provided by the kernel</small></h1>
+</div>
+
+
+#{if flash.success}
+	<div class="alert-message success">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.success}</strong></p>
+      </div>
+#{/if}
+#{if flash.error}
+	<div class="alert-message error">
+        <a class="close" href="#">&times;</a>
+        <p><strong>${flash.error}</strong></p>
+      </div>
+#{/if}
+
+#{if services}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Service Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list services, as : 'service'}
+          <tr>
+            <td>${service}</td>
+            <td><a href="${service}?wsdl" target="_blank" class="btn info">WSDL</a>&nbsp;<a href="#" class="btn info">Invoke</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}

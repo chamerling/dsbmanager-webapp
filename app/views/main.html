@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-1.2.0.css'}">
+        #{get 'moreStyles' /}
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+        <script src="@{'/public/javascripts/application.js'}" type="text/javascript" charset="utf-8"></script>
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+    
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <h3><a href="@{Application.index()}">DSB Manager</a></h3>
+          <ul>
+            <!--- browse -->
+            <ul class="nav secondary-nav">
+              <li class="menu">
+                <a href="#" class="menu">SOA</a>
+                <ul class="menu-dropdown">
+                  <li><a href="@{Application.bind()}">Bind</a></li>
+                  <li><a href="@{Application.endpoints()}">Endpoints</a></li>
+                </ul>
+              </li>
+              <li class="menu">
+                <a href="#" class="menu">EDA</a>
+                <ul class="menu-dropdown">
+                  <li><a href="@{Application.index()}">Topics</a></li>
+                </ul>
+              </li>
+              <li class="menu">
+                <a href="#" class="menu">Core</a>
+                <ul class="menu-dropdown">
+                  <li><a href="@{Application.services()}">Services</a></li>
+                  <li><a href="@{Application.index()}">Routing</a></li>
+                  <li><a href="@{Application.index()}">JBI</a></li>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+          <ul class="nav secondary-nav">
+          	<li><a href="@{Application.index()}">About</a></li>
+          </ul>
+        </div>
+      </div> <!-- /fill -->
+    </div>
+    
+    <!--
+    <div>
+    <ul class="tabs">
+  		<li class="active"><a href="#">Home</a></li>
+  		<li><a href="#">Notify</a></li>
+  		<li><a href="#">Subscribe</a></li>
+  		<li><a href="#">Listen</a></li>
+	</ul>
+    </div>
+    -->
+    
+  <div class="container">
+     #{doLayout /}
+  </div>
+  </body>
+</html>
