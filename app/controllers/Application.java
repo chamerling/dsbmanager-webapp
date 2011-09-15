@@ -7,7 +7,6 @@ import models.Node;
 
 import org.ow2.petals.kernel.ws.api.EndpointService;
 import org.ow2.petals.kernel.ws.api.JBIArtefactsService;
-import org.ow2.petals.kernel.ws.api.PEtALSWebServiceException;
 import org.ow2.petals.kernel.ws.api.TopologyService;
 import org.ow2.petals.kernel.ws.api.to.Component;
 import org.ow2.petals.kernel.ws.api.to.ContainerInformation;
@@ -18,6 +17,8 @@ import org.petalslink.dsb.cxf.CXFHelper;
 import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
+import org.petalslink.dsb.ws.api.ServiceEndpoint;
+import org.petalslink.dsb.ws.api.ServiceInformation;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 
 import play.data.validation.URL;
@@ -63,7 +64,7 @@ public class Application extends Controller {
 		connect();
 	}
 
-	public static void services() {
+	public static void coreServices() {
 		DSBInformationService s = CXFHelper.getClient(getURL(),
 				DSBInformationService.class);
 		try {
@@ -77,12 +78,17 @@ public class Application extends Controller {
 		render();
 	}
 
-	public static void bind() {
+	public static void services() {
 		SOAPServiceBinder binder = CXFHelper.getClient(getURL(),
 				SOAPServiceBinder.class);
+
+		ServiceInformation information = CXFHelper.getClient(getURL(),
+				ServiceInformation.class);
+
 		try {
 			Set<String> services = binder.getWebServices();
-			render(services);
+			Set<String> exposed = information.getExposedWebServices();
+			render(services, exposed);
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
@@ -105,26 +111,26 @@ public class Application extends Controller {
 		SOAPServiceBinder binder = CXFHelper.getClient(getURL(),
 				SOAPServiceBinder.class);
 		try {
-			binder.bindWebService(wsdlURL);
-			flash.success("Service %s bound", wsdlURL);
+			List<ServiceEndpoint> bound = binder.bindWebService(wsdlURL);
+			StringBuffer endpoints = new StringBuffer();
+			int i = 0;
+			for (ServiceEndpoint serviceEndpoint : bound) {
+				i++;
+				endpoints.append("[Name : ");
+				endpoints.append(serviceEndpoint.getEndpoint());
+				endpoints.append(", Service : " + serviceEndpoint.getService());
+				endpoints.append(", Interface : " + serviceEndpoint.getItf()
+						+ "]");
+				if (i < bound.size()) {
+					endpoints.append(", ");
+				}
+			}
+			flash.success("Service %s bound as endpoint(s) %s", wsdlURL,
+					endpoints);
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
-		bind();
-	}
-
-	private static String getURL() {
-		if (session.get("node") == null) {
-			flash.error("Not connected, please select a node");
-			connect();
-		}
-		Node n = Node.findById(Long.parseLong(session.get("node")));
-		if (n == null) {
-			session.remove("node");
-			flash.error("Node not found, please select a node");
-			connect();
-		}
-		return n.baseURL;
+		services();
 	}
 
 	public static void jbi() {
@@ -140,10 +146,10 @@ public class Application extends Controller {
 		}
 		render();
 	}
-	
+
 	public static void jbisa(String saName) {
-		ServiceArtefactsInformationService service = CXFHelper.getClient(getURL(),
-				ServiceArtefactsInformationService.class);
+		ServiceArtefactsInformationService service = CXFHelper.getClient(
+				getURL(), ServiceArtefactsInformationService.class);
 		try {
 			String description = service.getSADescription(saName);
 			render(saName, description);
@@ -163,6 +169,20 @@ public class Application extends Controller {
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
+	}
+	
+	private static String getURL() {
+		if (session.get("node") == null) {
+			flash.error("Not connected, please select a node");
+			connect();
+		}
+		Node n = Node.findById(Long.parseLong(session.get("node")));
+		if (n == null) {
+			session.remove("node");
+			flash.error("Node not found, please select a node");
+			connect();
+		}
+		return n.baseURL;
 	}
 
 }

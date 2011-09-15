@@ -1,23 +1,65 @@
 #{extends 'main.html' /}
-#{set title:'Services' /}
+#{set title:'Subscribe' /}
 
 <div class="page-header">
-    <h1>Core Services <small>Management services provided by the kernel</small></h1>
+    <h1>Bind service</h1>
 </div>
 
+#{form @Application.postBind()}
+		<fieldset>
+				<div class="clearfix">
+        			<label for="wsdlURL">Service WSDL URL</label>
+        			<div class="input">
+        				<input type="text" name="wsdlURL" id="wsdlURL" class="xlarge" size="30"/>
+        			</div>
+        		</div>
+         		
+	    		<div class="actions">
+        			<input class="btn primary" type="submit" value="Bind" />
+        			&nbsp;
+        			<button type="reset" class="btn">Cancel</button>
+        		</div>
+        </fieldset>
+#{/form}
+
+<div class="page-header">
+    <h1>Bound services</h1>
+</div>
 #{if services}
 	<table class="zebra-striped">
         <thead>
           <tr>
-            <th>Service Name</th>
+            <th>Service WSDL</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
         #{list services, as : 'service'}
           <tr>
-            <td>${service}</td>
-            <td><a href="${service}?wsdl" target="_blank" class="btn info">WSDL</a>&nbsp;<a href="#" class="btn info">Invoke</a></td>
+            <td><a href="${service}">${service}</a></td>
+            <td><a href="#" class="btn info">Details</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}
+
+<div class="page-header">
+    <h1>Front services</h1>
+</div>
+#{if exposed}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Service WSDL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list exposed, as : 's'}
+          <tr>
+            <td><a href="${s}?wsdl">${s}?wsdl</a></td>
+            <td><a href="#" class="btn info">Details</a></td>
           </tr>
         #{/list}
         </tbody>
