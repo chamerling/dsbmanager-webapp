@@ -64,7 +64,7 @@ public class Application extends Controller {
 		connect();
 	}
 
-	public static void coreServices() {
+	public static void coreservices() {
 		DSBInformationService s = CXFHelper.getClient(getURL(),
 				DSBInformationService.class);
 		try {
