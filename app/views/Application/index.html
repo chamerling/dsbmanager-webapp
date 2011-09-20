@@ -1,9 +1,12 @@
 #{extends 'main.html' /}
 #{set title:'Home' /}
 
+<div class="well">
 #{if currentNode}
 Connected...
 #{/if}
+</div>
+
 #{else}
 <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1">
           <div class="modal-header">

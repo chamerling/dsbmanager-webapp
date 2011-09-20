@@ -19,8 +19,8 @@
         #{list endpoints, as : 'endpoint'}
           <tr>
             <td><b>${endpoint.name}</b></td>
-            <td>${endpoint.service}</td>
-            <td>${endpoint.interfaces[0]}</td>
+            <td>NS : ${endpoint.service.namespaceURI}<br>LocalPart : ${endpoint.service.localPart}</td>
+            <td>NS : ${endpoint.interfaces[0].namespaceURI}<br>LocalPart : ${endpoint.interfaces[0].localPart}</td>
             <td><a href="#" class="btn info">Details</a></td>
           </tr>
         #{/list}

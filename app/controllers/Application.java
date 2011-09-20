@@ -17,6 +17,7 @@ import org.petalslink.dsb.cxf.CXFHelper;
 import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.ExposerService;
+import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
 import org.petalslink.dsb.ws.api.ServiceInformation;
@@ -80,6 +81,14 @@ public class Application extends Controller {
 		render();
 	}
 
+	public static void router() {
+		RouterModuleService routerModuleService = CXFHelper.getClient(getURL(),
+				RouterModuleService.class);
+		Set<String> receivers = routerModuleService.getReceivers();
+		Set<String> senders = routerModuleService.getSenders();
+		render(senders, receivers);
+	}
+
 	public static void services() {
 		SOAPServiceBinder binder = CXFHelper.getClient(getURL(),
 				SOAPServiceBinder.class);
@@ -96,9 +105,10 @@ public class Application extends Controller {
 		}
 		render();
 	}
-	
+
 	public static void exposeNow() {
-		ExposerService service = CXFHelper.getClient(getURL(), ExposerService.class);
+		ExposerService service = CXFHelper.getClient(getURL(),
+				ExposerService.class);
 		try {
 			service.expose();
 		} catch (Exception e) {
@@ -171,7 +181,7 @@ public class Application extends Controller {
 		}
 		render();
 	}
-	
+
 	public static void jbisu(String saName, String su) {
 		ServiceArtefactsInformationService service = CXFHelper.getClient(
 				getURL(), ServiceArtefactsInformationService.class);
@@ -183,15 +193,16 @@ public class Application extends Controller {
 		}
 		render();
 	}
-	
+
 	public static void jbicomponent(String name) {
 		ServiceArtefactsInformationService service = CXFHelper.getClient(
 				getURL(), ServiceArtefactsInformationService.class);
-		
-		ComponentInformationService componentService = CXFHelper.getClient(getURL(), ComponentInformationService.class);
+
+		ComponentInformationService componentService = CXFHelper.getClient(
+				getURL(), ComponentInformationService.class);
 		try {
 			Set<String> sus = service.getSUForComponent(name);
-			String description = "";//componentService.getComponentDescription(name);
+			String description = "";// componentService.getComponentDescription(name);
 			render(name, sus, description);
 		} catch (Exception e) {
 			flash.error(e.getMessage());
@@ -210,7 +221,7 @@ public class Application extends Controller {
 			flash.error(e.getMessage());
 		}
 	}
-	
+
 	private static String getURL() {
 		if (session.get("node") == null) {
 			flash.error("Not connected, please select a node");

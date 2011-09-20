@@ -10,7 +10,8 @@ GET     /                                       Application.index
 GET     /connect                                Application.connect
 GET     /node/connect/{id}                      Application.nodeConnect
 GET     /node/disconnect/{id}                   Application.nodeDisconnect
-GET     /coreservices                           Application.coreservices
+GET     /core/services                          Application.coreservices
+GET     /core/router                            Application.router
 GET     /services                               Application.services
 GET     /services/expose                        Application.exposeNow
 POST    /postBind                               Application.postBind

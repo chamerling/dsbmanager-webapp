@@ -1,0 +1,30 @@
+#{extends 'main.html' /}
+#{set title:'Kernel : Router' /}
+
+<div class="page-header">
+    <h1>Router details</h1>
+</div>
+
+<div class="well">
+Manage the service bus router by activating/unactivating its modules below.
+</div>
+
+<h2>Sender Modules</h2>
+<table>
+	<thead><th>Name</th><th>State</th><th>Actions</th></thead>
+	<tbody>
+	    #{list senders, as : 's'}
+		<tr><td><b>${s}</b></td><td>-</td><td><a href="" class="btn">Stop</a></td></tr>
+		#{/list}
+	</tbody>
+</table>
+
+<h2>Receiver Modules</h2>
+<table>
+	<thead><th>Name</th><th>State</th><th>Actions</th></thead>
+	<tbody>
+	    #{list receivers, as : 'r'}
+		<tr><td><b>${r}</b></td><td>-</td><td><a href="" class="btn">Stop</a></td></tr>
+		#{/list}
+	</tbody>
+</table>
