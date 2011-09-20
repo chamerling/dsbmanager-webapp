@@ -22,7 +22,7 @@
             <td><b>${c.name}</b></td>
             <td>${c.type}</td>
             <td>${c.state}</td>
-            <td><a href="#" class="btn info">Details</a></td>
+            <td><a href="@{Application.jbicomponent(c.name)}" class="btn info">Details</a></td>
           </tr>
         #{/list}
         </tbody>

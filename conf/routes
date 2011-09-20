@@ -12,10 +12,13 @@ GET     /node/connect/{id}                      Application.nodeConnect
 GET     /node/disconnect/{id}                   Application.nodeDisconnect
 GET     /coreservices                           Application.coreservices
 GET     /services                               Application.services
+GET     /services/expose                        Application.exposeNow
 POST    /postBind                               Application.postBind
 GET     /endpoints                              Application.endpoints
 GET     /jbi                                    Application.jbi
-GET     /jbisa/{saName}                         Application.jbisa
+GET     /jbi/sa/{saName}                        Application.jbisa
+GET     /jbi/su/{saName}/{su}                   Application.jbisu
+GET     /jbi/component/{name}                   Application.jbicomponent
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

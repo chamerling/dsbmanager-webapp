@@ -1,19 +1,18 @@
 #{extends 'main.html' /}
-#{set title:'Java Business Integration' /}
+#{set title:'Java Business Integration : Component' /}
 
 <div class="page-header">
-    <h1>Service Assembly details</h1>
+    <h1>Component details</h1>
 </div>
 
 <table>
 	<tbody>
-		<tr><td><b>Name</b></td><td>${saName}</td></tr>
-		<tr><td><b>Status</b></td><td>${saStatus}</td></tr>
+		<tr><td><b>Name</b></td><td>${name}</td></tr>
 		<tr><td><b>Description</b></td><td><code>${description}</code></td></tr>
 	</tbody>
 </table>
 
-<h2>Composed of</h2>
+<h2>Linked SU</h2>
 <table>
 	<thead><th>SU Name</th><th>Actions</th></thead>
 	<tbody>
@@ -22,5 +21,4 @@
 		#{/list}
 	</tbody>
 </table>
-
 

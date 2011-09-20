@@ -16,9 +16,11 @@ import org.ow2.petals.kernel.ws.api.to.SharedLib;
 import org.petalslink.dsb.cxf.CXFHelper;
 import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
+import org.petalslink.dsb.ws.api.ExposerService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
 import org.petalslink.dsb.ws.api.ServiceInformation;
+import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 
 import play.data.validation.URL;
@@ -94,6 +96,16 @@ public class Application extends Controller {
 		}
 		render();
 	}
+	
+	public static void exposeNow() {
+		ExposerService service = CXFHelper.getClient(getURL(), ExposerService.class);
+		try {
+			service.expose();
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+		services();
+	}
 
 	public static void endpoints() {
 		EndpointService client = CXFHelper.getClient(getURL(),
@@ -152,7 +164,35 @@ public class Application extends Controller {
 				getURL(), ServiceArtefactsInformationService.class);
 		try {
 			String description = service.getSADescription(saName);
-			render(saName, description);
+			Set<String> sus = service.getSUForSA(saName);
+			render(saName, sus, description);
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+		render();
+	}
+	
+	public static void jbisu(String saName, String su) {
+		ServiceArtefactsInformationService service = CXFHelper.getClient(
+				getURL(), ServiceArtefactsInformationService.class);
+		try {
+			String description = service.getSUDescription(saName, su);
+			render(su, description);
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+		render();
+	}
+	
+	public static void jbicomponent(String name) {
+		ServiceArtefactsInformationService service = CXFHelper.getClient(
+				getURL(), ServiceArtefactsInformationService.class);
+		
+		ComponentInformationService componentService = CXFHelper.getClient(getURL(), ComponentInformationService.class);
+		try {
+			Set<String> sus = service.getSUForComponent(name);
+			String description = "";//componentService.getComponentDescription(name);
+			render(name, sus, description);
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
