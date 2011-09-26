@@ -21,6 +21,11 @@ GET     /jbi/sa/{saName}                        Application.jbisa
 GET     /jbi/su/{saName}/{su}                   Application.jbisu
 GET     /jbi/component/{name}                   Application.jbicomponent
 
+GET     /monitoring                             Application.monitoring
+GET     /monitoring/activate/{state}            Application.monitor
+GET     /monitoring/subscribe                   Application.subscribeToMonitoring
+GET     /monitoring/unsubscribe                 Application.unsubcribeFromMonitoring
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

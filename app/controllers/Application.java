@@ -3,6 +3,8 @@ package controllers;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import models.Node;
 
 import org.ow2.petals.kernel.ws.api.EndpointService;
@@ -17,6 +19,7 @@ import org.petalslink.dsb.cxf.CXFHelper;
 import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.ExposerService;
+import org.petalslink.dsb.ws.api.PubSubMonitoringManager;
 import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
@@ -220,6 +223,40 @@ public class Application extends Controller {
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
+	}
+
+	public static void monitoring() {
+		PubSubMonitoringManager manager = CXFHelper.getClient(getURL(),
+				PubSubMonitoringManager.class);
+
+		try {
+			boolean state = manager.getState();
+			QName topic = manager.getTopic();
+			render(state, topic);
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+	}
+
+	public static void monitor(boolean state) {
+		PubSubMonitoringManager manager = CXFHelper.getClient(getURL(),
+				PubSubMonitoringManager.class);
+		try {
+			manager.setState(state);
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+		monitoring();
+	}
+
+	public static void unsubcribeFromMonitoring() {
+		// TODO
+		monitoring();
+	}
+
+	public static void subscribeToMonitoring() {
+		// TODO
+		monitoring();
 	}
 
 	private static String getURL() {
