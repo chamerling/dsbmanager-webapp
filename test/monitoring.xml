@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+		<wsa:To>http://localhost:9000/services/RawService</wsa:To>
+		<wsa:MessageID>urn:uuid:AFB9DC2D92AA52CBFF1317110458490</wsa:MessageID>
+		<wsa:Action>urn:NotifyResponse</wsa:Action>
+	</soapenv:Header>
+	<soapenv:Body>
+		<wsnt:Notify xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+			<wsnt:NotificationMessage>
+				<wsnt:SubscriptionReference>
+					<wsa:Address xmlns:wsa="http://www.w3.org/2005/08/addressing">http://localhost:9000/services/RawService</wsa:Address>
+					<wsa:ReferenceParameters xmlns:wsa="http://www.w3.org/2005/08/addressing" />
+				</wsnt:SubscriptionReference>
+				<wsnt:Topic xmlns:dsb="http://www.petalslink.org/dsb/topicsns/"
+					Dialect="http://www.w3.org/TR/1999/REC-xpath-19991116">dsb:MonitoringTopic</wsnt:Topic>
+				<wsnt:ProducerReference>
+					<wsa:Address xmlns:wsa="http://www.w3.org/2005/08/addressing">dsb://MonitoringNotifcationSender</wsa:Address>
+					<wsa:ReferenceParameters xmlns:wsa="http://www.w3.org/2005/08/addressing" />
+				</wsnt:ProducerReference>
+				<wsnt:Message>
+					<ReportListBean xmlns:ns2="org.petalslink.dsb.monitoring.api">
+						<reports>
+							<exchangeId>petals:uid:748E3B7E2B7A0FCD1213171104582349260003</exchangeId>
+							<serviceName>{http://api.ws.dsb.petalslink.org/}HelloServiceService</serviceName>
+							<endpoint>HelloServicePort</endpoint>
+							<operation>{http://api.ws.dsb.petalslink.org/}sayHello</operation>
+							<itf>{http://api.ws.dsb.petalslink.org/}HelloService</itf>
+							<consumer>null ->null (CONSUMER):subdomain1/0/petals-bc-soap</consumer>
+							<provider>{http://api.ws.dsb.petalslink.org/}HelloServiceService</provider>
+							<isException>false</isException>
+							<contentLength>169</contentLength>
+							<date>2011-09-27T10:00:58.269+02:00</date>
+							<type>t1</type>
+						</reports>
+						<reports>
+							<exchangeId>petals:uid:748E3B7E2B7A0FCD1213171104582349260003</exchangeId>
+							<serviceName>{http://api.ws.dsb.petalslink.org/}HelloServiceService</serviceName>
+							<endpoint>HelloServicePort</endpoint>
+							<operation>{http://api.ws.dsb.petalslink.org/}sayHello</operation>
+							<itf>{http://api.ws.dsb.petalslink.org/}HelloService</itf>
+							<consumer>null ->null (CONSUMER):subdomain1/0/petals-bc-soap</consumer>
+							<provider>{http://api.ws.dsb.petalslink.org/}HelloServiceService</provider>
+							<isException>false</isException>
+							<contentLength>169</contentLength>
+							<date>2011-09-27T10:00:58.287+02:00</date>
+							<type>t2</type>
+						</reports>
+						<reports>
+							<exchangeId>petals:uid:748E3B7E2B7A0FCD1213171104582349260003</exchangeId>
+							<serviceName>{http://api.ws.dsb.petalslink.org/}HelloServiceService</serviceName>
+							<endpoint>HelloServicePort</endpoint>
+							<operation>{http://api.ws.dsb.petalslink.org/}sayHello</operation>
+							<itf>{http://api.ws.dsb.petalslink.org/}HelloService</itf>
+							<consumer>null ->null (CONSUMER):subdomain1/0/petals-bc-soap</consumer>
+							<provider>{http://api.ws.dsb.petalslink.org/}HelloServiceService</provider>
+							<isException>false</isException>
+							<contentLength>182</contentLength>
+							<date>2011-09-27T10:00:58.369+02:00</date>
+							<type>t3</type>
+						</reports>
+						<reports>
+							<exchangeId>petals:uid:748E3B7E2B7A0FCD1213171104582349260003</exchangeId>
+							<serviceName>{http://api.ws.dsb.petalslink.org/}HelloServiceService</serviceName>
+							<endpoint>HelloServicePort</endpoint>
+							<operation>{http://api.ws.dsb.petalslink.org/}sayHello</operation>
+							<itf>{http://api.ws.dsb.petalslink.org/}HelloService</itf>
+							<consumer>null ->null (CONSUMER):subdomain1/0/petals-bc-soap</consumer>
+							<provider>{http://api.ws.dsb.petalslink.org/}HelloServiceService</provider>
+							<isException>false</isException>
+							<contentLength>182</contentLength>
+							<date>2011-09-27T10:00:58.369+02:00</date>
+							<type>t4</type>
+						</reports>
+					</ReportListBean>
+				</wsnt:Message>
+			</wsnt:NotificationMessage>
+		</wsnt:Notify>
+	</soapenv:Body>
+</soapenv:Envelope>
