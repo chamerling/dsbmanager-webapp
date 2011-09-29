@@ -4,6 +4,7 @@ require:
     - play
     - play -> crud
     - play -> secure
+    - org.petalslink.dsb -> dsb-monitoring-api 1.0-SNAPSHOT
     - org.petalslink.dsb -> dsb-cxfutils 1.0-SNAPSHOT:
         exclude:
           - org.slf4j -> *

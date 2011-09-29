@@ -2,7 +2,7 @@
 #{set title:'Monitoring' /}
 
 <div class="page-header">
-    <h1>Monitoring</h1>
+    <h1>Real Time Monitoring</h1>
 </div>
 
 <div class="well" style="padding: 14px 19px;">
@@ -12,19 +12,138 @@
 #{else}
 	<a class="btn primary" href="@{Application.monitor(true)}">Activate</a>&nbsp;
 #{/else}
+<a class="btn primary" href="@{Application.unsubcribeFromMonitoring()}">Unsubscribe</a>&nbsp;
+	<a class="btn primary" href="@{Application.subscribeToMonitoring()}">Subscribe</a>&nbsp;
 </div>
 
-<div class="page-header">
-    <h1>Monitor</h1>
+<div>
+  <div id="log"></div>
 </div>
 
 <div class="well" style="padding: 14px 19px;">
-#{if state}
-	<a class="btn primary" href="@{Application.unsubcribeFromMonitoring()}">Unsubscribe</a>&nbsp;
-#{/if}
-#{else}
-	<a class="btn primary" href="@{Application.subscribeToMonitoring()}">Subscribe</a>&nbsp;
-#{/else}
+<div align="center">
+  <canvas id="mycanvas" width="800" height="400"></canvas>
+</div>
 </div>
 
-<div class="alert-message error"><p><strong>TODO : </strong>Display monitoring with websocket and some javascript stuff...</p></div>
+<div align="center">
+   <div id="endpoints"></div>
+</div>
+
+<table>
+	<tbody>
+		<tr>
+			<td><b>Received at</b></td>
+			<td><div id="date">-</div></td>
+		</tr>
+		<tr>
+			<td><b>Response time (t4 - t1)</b></td>
+			<td><div id="response">-</div></td>
+		</tr>
+		<tr>
+			<td><b>Service</b></td>
+			<td><div id="service">-</div></td>
+		</tr>
+		<tr>
+			<td><b>Endpoint</b></td>
+			<td><div id="endpoint">-</div></td>
+		</tr>
+		<tr>
+			<td><b>Interface</b></td>
+			<td><div id="interface">-</div></td>
+		</tr>
+		<tr>
+			<td><b>Operation</b></td>
+			<td><div id="operation">-</div></td>
+		</tr>
+	</tbody>
+</table>
+		
+<script type="text/javascript">
+		$(function() {
+		    var series = new Array();
+		    var endpoints = new Array();
+		    var colors = new Array();
+		    // todo : compute colors automatically...
+		    colors[0] = 'rgb(255, 0, 0)';
+		    colors[1] = 'rgb(0, 255, 0)';
+		    colors[2] = 'rgb(0, 0, 255)';
+		    colors[3] = 'rgb(120, 0, 255)';
+		    colors[4] = 'rgb(0, 120, 255)';
+		    colors[5] = 'rgb(120, 255, 255)';
+		    colors[6] = 'rgb(120, 255, 0)';
+		    colors[7] = 'rgb(255, 120, 200)';
+		    colors[8] = 'rgb(200, 120, 255)';
+		    colors[9] = 'rgb(255, 110, 150)';
+		    
+		    var fill = new Array();
+		    fill[0] = 'rgba(255, 0, 0, 0.4)';
+		    fill[1] = 'rgba(0, 255, 0, 0.4)';
+		    fill[2] = 'rgba(0, 0, 255, 0.4)';
+		    fill[3] = 'rgba(120, 0, 255, 0.4)';
+		    fill[4] = 'rgba(0, 120, 255, 0.4)';
+		    fill[5] = 'rgba(120, 255, 255, 0.4)';
+		    fill[6] = 'rgba(120, 255, 0, 0.4)';
+		    fill[7] = 'rgba(255, 120, 200, 0.4)';
+		    fill[8] = 'rgba(200, 120, 255, 0.4)';
+		    fill[9] = 'rgba(255, 110, 150, 0.4)';
+		    
+		    var i = 0;
+		    var color = 0;
+			
+			var smoothieChart = new SmoothieChart({ grid: { strokeStyle: 'rgb(125, 0, 0)', fillStyle: 'rgb(10, 10, 10)', lineWidth: 1, millisPerLine: 1000, verticalSections: 5 }, interpolation: 'bezier', minValue : 0 });
+			smoothieChart.streamTo(document.getElementById("mycanvas"));
+
+			if (window["WebSocket"]) {
+				var conn = new WebSocket('@@{WebSocket.monitoring()}');
+
+				conn.onmessage = function(evt) {
+					//$("#log").text(evt.data);
+					
+					var d = $.parseJSON(evt.data);
+					
+					var inArray = $.inArray(d.endpoint, endpoints);
+					//$("#log").text(inArray);
+					if (inArray == -1) {
+					  endpoints[i] = d.endpoint;
+					  
+					  // create a new serie
+					  var newSerie = new TimeSeries();
+					  series[i] = newSerie;
+					  
+					  i++;
+					  
+					  smoothieChart.addTimeSeries(newSerie, { strokeStyle:colors[color], fillStyle:fill[color], lineWidth:2 });
+					  // bad hack...
+					  
+					  $("#endpoints").append('<b><font style=\"color:'+colors[color]+';\">&nbsp;'+d.endpoint+'&nbsp;</font></b>');
+					   color++;
+					  if (color == 10) {
+					  	color = 0;
+					  }
+					}
+					
+					// get the serie and publish data into
+					inArray = $.inArray(d.endpoint, endpoints);
+					var currentSerie = series[inArray];
+					
+					var diff = parseFloat(d.t4) - parseFloat(d.t1);
+										
+					$("#date").text(d.date);
+					$("#service").text(d.service);
+					$("#endpoint").text(d.endpoint);
+					$("#interface").text(d.itf);
+					$("#operation").text(d.operation);
+					$("#response").text(diff);
+					
+					currentSerie.append(new Date().getTime(), parseFloat(diff));
+				};
+
+				conn.onclose = function(evt) {
+					$("#log").text("Connection closed");
+				};
+			} else {
+				$("#log").text("Browser does not support WebSockets")
+			}
+		});
+</script>

@@ -1,12 +1,15 @@
 package controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import models.Node;
 
+import org.jboss.netty.handler.codec.http.HttpResponse;
 import org.ow2.petals.kernel.ws.api.EndpointService;
 import org.ow2.petals.kernel.ws.api.JBIArtefactsService;
 import org.ow2.petals.kernel.ws.api.TopologyService;
@@ -28,8 +31,11 @@ import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 
 import play.data.validation.URL;
+import play.libs.WS;
+import play.libs.WS.WSRequest;
 import play.mvc.Before;
 import play.mvc.Controller;
+import play.templates.TemplateLoader;
 
 public class Application extends Controller {
 
@@ -42,6 +48,11 @@ public class Application extends Controller {
 		if (n != null) {
 			renderArgs.put("currentNode", n);
 		}
+		
+		renderArgs.put("base", request.getBase());
+		String location = request.getBase() + "/services/MonitoringService";
+		renderArgs.put("location", location);
+		
 	}
 
 	public static void index() {
@@ -236,6 +247,7 @@ public class Application extends Controller {
 		} catch (Exception e) {
 			flash.error(e.getMessage());
 		}
+		render();
 	}
 
 	public static void monitor(boolean state) {
@@ -250,12 +262,44 @@ public class Application extends Controller {
 	}
 
 	public static void unsubcribeFromMonitoring() {
-		// TODO
+		flash.error("Not implemented");
 		monitoring();
 	}
 
 	public static void subscribeToMonitoring() {
-		// TODO
+
+		// get the subscription endpoint from the node we are currently
+		// connected to...
+		String url = getURL();
+		if (!url.endsWith("/")) {
+			url = url + "/";
+		}
+		String endpoint = url + "NotificationProducer";
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		// will be nice to have this type of thing with the same code available
+		// in the real renderTemplate method...
+		map.put("topicName", "MonitoringTopic");
+		map.put("topicURL", "http://www.petalslink.org/dsb/topicsns/");
+		map.put("topicURI", "http://www.petalslink.org/dsb/topicsns/");
+		map.put("topicPrefix", "dsb");
+		map.put("subscriber", renderArgs.get("location"));
+
+		String rendered = TemplateLoader.load(
+				"Services/subscribetemplate.xml").render(map);
+		
+		WSRequest request = WS.url(endpoint)
+				.setHeader("content-type", "application/soap+xml")
+				.body(rendered);
+		try {
+			request.postAsync();
+			flash.success("Subscription done!");
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			flash.error("Can not send subscribe to %s, cause '%s'!", endpoint,
+					e.getMessage());
+		}
+
 		monitoring();
 	}
 

@@ -1,0 +1,18 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<wsn:Subscribe xmlns:wsn="http://docs.oasis-open.org/wsn/b-2"
+			xmlns:add="http://www.w3.org/2005/08/addressing" targetnamespace="http://docs.oasis-open.org/wsn/b-2">
+			<wsn:ConsumerReference xmlns:wsn="http://docs.oasis-open.org/wsn/b-2"
+				xmlns:add="http://www.w3.org/2005/08/addressing">
+				<add:Address>${subscriber}</add:Address>
+			</wsn:ConsumerReference>
+			<wsn:Filter>
+				<wsn:TopicExpression Dialect="http://www.w3.org/TR/1999/REC-xpath-19991116"
+					xmlns:${topicPrefix}="${topicURI}">
+					${topicPrefix}:${topicName}
+		     </wsn:TopicExpression>
+			</wsn:Filter>
+		</wsn:Subscribe>
+	</soapenv:Body>
+</soapenv:Envelope>

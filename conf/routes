@@ -29,6 +29,13 @@ GET     /monitoring/unsubscribe                 Application.unsubcribeFromMonito
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
+# Some Web services
+GET     /services/MonitoringService.{wsdl}           Services.wsdl
+POST    /services/MonitoringService                  Services.any
+
+# Websockets
+WS      /websocket                              WebSocket.monitoring
+
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
 
