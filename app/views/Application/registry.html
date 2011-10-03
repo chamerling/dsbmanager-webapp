@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set title:'Kernel : Router' /}
+
+<div class="page-header">
+    <h1>Registry Management</h1>
+</div>
+
+<div class="well">
+Manage the service bus registry by activating/unactivating its registry listeners below.
+</div>
+
+<h2>Registry Listeners</h2>
+<table class="zebra-striped">
+	<thead><th>Name</th><th>Active</th><th>Actions</th></thead>
+	<tbody>
+	    #{list listeners, as : 'l'}
+		<tr><td><b>${l.name}</b></td><td>${l.state}</td><td>#{if l.state}<a href="@{Application.updateListener(l.name, !l.state)}" class="btn danger">Pause</a>#{/if}#{else}<a href="@{Application.updateListener(l.name, !l.state)}" class="btn success">Resume</a>#{/else}</td></tr>
+		#{/list}
+	</tbody>
+</table>

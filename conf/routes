@@ -12,6 +12,8 @@ GET     /node/connect/{id}                      Application.nodeConnect
 GET     /node/disconnect/{id}                   Application.nodeDisconnect
 GET     /core/services                          Application.coreservices
 GET     /core/router                            Application.router
+GET     /core/registry/{name}/{state}           Application.updateListener
+GET     /core/registry                          Application.registry
 GET     /services                               Application.services
 GET     /services/expose                        Application.exposeNow
 POST    /postBind                               Application.postBind

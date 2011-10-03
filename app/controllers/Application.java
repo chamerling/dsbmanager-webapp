@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +24,15 @@ import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.ExposerService;
 import org.petalslink.dsb.ws.api.PubSubMonitoringManager;
+import org.petalslink.dsb.ws.api.RegistryListenerService;
 import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
 import org.petalslink.dsb.ws.api.ServiceInformation;
 import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
+
+import beans.RegistryListener;
 
 import play.data.validation.URL;
 import play.libs.WS;
@@ -48,11 +52,11 @@ public class Application extends Controller {
 		if (n != null) {
 			renderArgs.put("currentNode", n);
 		}
-		
+
 		renderArgs.put("base", request.getBase());
 		String location = request.getBase() + "/services/MonitoringService";
 		renderArgs.put("location", location);
-		
+
 	}
 
 	public static void index() {
@@ -93,6 +97,38 @@ public class Application extends Controller {
 			flash.error(e.getMessage());
 		}
 		render();
+	}
+
+	public static void registry() {
+		RegistryListenerService s = CXFHelper.getClient(getURL(),
+				RegistryListenerService.class);
+
+		try {
+			Set<RegistryListener> listeners = new HashSet<RegistryListener>();
+			Set<String> tmp = s.getListeners();
+			for (String name : tmp) {
+				RegistryListener l = new RegistryListener();
+				l.name = name;
+				l.state = s.getState(name);
+				listeners.add(l);
+			}
+			render(listeners);
+		} catch (RuntimeException e) {
+			flash.error(e.getMessage());
+		}
+		render();
+	}
+	
+	public static void updateListener(String name, boolean state) {
+		RegistryListenerService s = CXFHelper.getClient(getURL(),
+				RegistryListenerService.class);
+
+		try {
+			s.setState(name, state);
+		} catch (RuntimeException e) {
+			flash.error(e.getMessage());
+		}
+		registry();
 	}
 
 	public static void router() {
@@ -285,9 +321,9 @@ public class Application extends Controller {
 		map.put("topicPrefix", "dsb");
 		map.put("subscriber", renderArgs.get("location"));
 
-		String rendered = TemplateLoader.load(
-				"Services/subscribetemplate.xml").render(map);
-		
+		String rendered = TemplateLoader.load("Services/subscribetemplate.xml")
+				.render(map);
+
 		WSRequest request = WS.url(endpoint)
 				.setHeader("content-type", "application/soap+xml")
 				.body(rendered);
