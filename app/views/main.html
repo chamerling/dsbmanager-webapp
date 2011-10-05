@@ -7,6 +7,9 @@
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-1.2.0.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+		<!-- Twitter bootstrap JS -->
+        <script src="@{'/public/javascripts/bootstrap/bootstrap-alert.js'}" type="text/javascript" charset="utf-8"></script>
+
         <script src="@{'/public/javascripts/jquery-1.5.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         <script src="@{'/public/javascripts/smoothie.js'}" type="text/javascript" charset="utf-8"></script>
         <script src="@{'/public/javascripts/application.js'}" type="text/javascript" charset="utf-8"></script>
@@ -57,13 +60,13 @@
   <div class="container">
   
   #{if flash.success}
-	<div class="alert-message success">
+	<div class="alert-message success fade in" data-alert="alert">
         <a class="close" href="#">&times;</a>
         <p><strong>${flash.success}</strong></p>
       </div>
   #{/if}
   #{if flash.error}
-	<div class="alert-message error">
+	<div class="alert-message error fade in" data-alert="alert">
         <a class="close" href="#">&times;</a>
         <p><strong>${flash.error}</strong></p>
       </div>

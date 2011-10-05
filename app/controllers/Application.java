@@ -24,6 +24,7 @@ import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.ExposerService;
 import org.petalslink.dsb.ws.api.PubSubMonitoringManager;
+import org.petalslink.dsb.ws.api.PubSubMonitoringService;
 import org.petalslink.dsb.ws.api.RegistryListenerService;
 import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
@@ -118,7 +119,7 @@ public class Application extends Controller {
 		}
 		render();
 	}
-	
+
 	public static void updateListener(String name, boolean state) {
 		RegistryListenerService s = CXFHelper.getClient(getURL(),
 				RegistryListenerService.class);
@@ -304,38 +305,17 @@ public class Application extends Controller {
 
 	public static void subscribeToMonitoring() {
 
-		// get the subscription endpoint from the node we are currently
-		// connected to...
-		String url = getURL();
-		if (!url.endsWith("/")) {
-			url = url + "/";
-		}
-		String endpoint = url + "NotificationProducer";
-		Map<String, Object> map = new HashMap<String, Object>();
+		PubSubMonitoringService pubSubMonitoringService = CXFHelper.getClient(
+				getURL(), PubSubMonitoringService.class);
 
-		// will be nice to have this type of thing with the same code available
-		// in the real renderTemplate method...
-		map.put("topicName", "MonitoringTopic");
-		map.put("topicURL", "http://www.petalslink.org/dsb/topicsns/");
-		map.put("topicURI", "http://www.petalslink.org/dsb/topicsns/");
-		map.put("topicPrefix", "dsb");
-		map.put("subscriber", renderArgs.get("location"));
-
-		String rendered = TemplateLoader.load("Services/subscribetemplate.xml")
-				.render(map);
-
-		WSRequest request = WS.url(endpoint)
-				.setHeader("content-type", "application/soap+xml")
-				.body(rendered);
 		try {
-			request.postAsync();
-			flash.success("Subscription done!");
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			flash.error("Can not send subscribe to %s, cause '%s'!", endpoint,
+			String id = pubSubMonitoringService.subscribe(request.getBase()
+					+ "/services/MonitoringService");
+			flash.success("Subscription done, subscription ID is %s", id);
+		} catch (Exception e) {
+			flash.error("Can not send subscribe to DSB, cause '%s'!",
 					e.getMessage());
 		}
-
 		monitoring();
 	}
 
