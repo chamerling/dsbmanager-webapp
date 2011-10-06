@@ -1,16 +1,13 @@
 package controllers;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import models.Node;
 
-import org.jboss.netty.handler.codec.http.HttpResponse;
 import org.ow2.petals.kernel.ws.api.EndpointService;
 import org.ow2.petals.kernel.ws.api.JBIArtefactsService;
 import org.ow2.petals.kernel.ws.api.TopologyService;
@@ -26,6 +23,7 @@ import org.petalslink.dsb.ws.api.ExposerService;
 import org.petalslink.dsb.ws.api.PubSubMonitoringManager;
 import org.petalslink.dsb.ws.api.PubSubMonitoringService;
 import org.petalslink.dsb.ws.api.RegistryListenerService;
+import org.petalslink.dsb.ws.api.RouterModule;
 import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
@@ -33,14 +31,10 @@ import org.petalslink.dsb.ws.api.ServiceInformation;
 import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 
-import beans.RegistryListener;
-
 import play.data.validation.URL;
-import play.libs.WS;
-import play.libs.WS.WSRequest;
 import play.mvc.Before;
 import play.mvc.Controller;
-import play.templates.TemplateLoader;
+import beans.RegistryListener;
 
 public class Application extends Controller {
 
@@ -135,9 +129,31 @@ public class Application extends Controller {
 	public static void router() {
 		RouterModuleService routerModuleService = CXFHelper.getClient(getURL(),
 				RouterModuleService.class);
-		Set<String> receivers = routerModuleService.getReceivers();
-		Set<String> senders = routerModuleService.getSenders();
+		Set<RouterModule> receivers = routerModuleService.getReceivers();
+		Set<RouterModule> senders = routerModuleService.getSenders();
 		render(senders, receivers);
+	}
+
+	public static void updateSenderModule(String name, boolean state) {
+		RouterModuleService s = CXFHelper.getClient(getURL(),
+				RouterModuleService.class);
+		try {
+			s.setSenderState(name, state);
+		} catch (RuntimeException e) {
+			flash.error(e.getMessage());
+		}
+		router();
+	}
+
+	public static void updateReceiverModule(String name, boolean state) {
+		RouterModuleService s = CXFHelper.getClient(getURL(),
+				RouterModuleService.class);
+		try {
+			s.setReceiverState(name, state);
+		} catch (RuntimeException e) {
+			flash.error(e.getMessage());
+		}
+		router();
 	}
 
 	public static void services() {

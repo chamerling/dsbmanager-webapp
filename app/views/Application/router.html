@@ -11,20 +11,20 @@ Manage the service bus router by activating/unactivating its modules below.
 
 <h2>Sender Modules</h2>
 <table>
-	<thead><th>Name</th><th>State</th><th>Actions</th></thead>
+	<thead><th>Name</th><th>Description</th><th>State</th><th>Actions</th></thead>
 	<tbody>
-	    #{list senders, as : 's'}
-		<tr><td><b>${s}</b></td><td>-</td><td><a href="" class="btn">Stop</a></td></tr>
+	    #{list senders, as : 'm'}
+		<tr><td><b>${m.name}</b></td><td>-</td><td>${m.state}</td><td><a href="@{Application.updateSenderModule(m.name, !m.state)}" class="btn danger #{if !m.state}disabled#{/if}">Pause</a>&nbsp;<a href="@{Application.updateSenderModule(m.name, !m.state)}" class="btn success #{if m.state}disabled#{/if}">Resume</a></td></tr>
 		#{/list}
 	</tbody>
 </table>
 
 <h2>Receiver Modules</h2>
 <table>
-	<thead><th>Name</th><th>State</th><th>Actions</th></thead>
+	<thead><th>Name</th><th>Description</th><th>State</th><th>Actions</th></thead>
 	<tbody>
-	    #{list receivers, as : 'r'}
-		<tr><td><b>${r}</b></td><td>-</td><td><a href="" class="btn">Stop</a></td></tr>
+	    #{list receivers, as : 'm'}
+		<tr><td><b>${m.name}</b></td><td>-</td><td>${m.state}</td><td><a href="@{Application.updateReceiverModule(m.name, !m.state)}" class="btn danger #{if !m.state}disabled#{/if}">Pause</a>&nbsp;<a href="@{Application.updateReceiverModule(m.name, !m.state)}" class="btn success #{if m.state}disabled#{/if}">Resume</a></td></tr>
 		#{/list}
 	</tbody>
 </table>

@@ -14,7 +14,7 @@ Manage the service bus registry by activating/unactivating its registry listener
 	<thead><th>Name</th><th>Active</th><th>Actions</th></thead>
 	<tbody>
 	    #{list listeners, as : 'l'}
-		<tr><td><b>${l.name}</b></td><td>${l.state}</td><td>#{if l.state}<a href="@{Application.updateListener(l.name, !l.state)}" class="btn danger">Pause</a>#{/if}#{else}<a href="@{Application.updateListener(l.name, !l.state)}" class="btn success">Resume</a>#{/else}</td></tr>
+		<tr><td><b>${l.name}</b></td><td>${l.state}</td><td><a href="@{Application.updateListener(l.name, !l.state)}" class="btn danger #{if !l.state}disabled#{/if}">Pause</a>&nbsp;<a href="@{Application.updateListener(l.name, !l.state)}" class="btn success #{if l.state}disabled#{/if}">Resume</a></td></tr>
 		#{/list}
 	</tbody>
 </table>
