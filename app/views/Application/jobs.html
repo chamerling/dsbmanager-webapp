@@ -1,0 +1,31 @@
+#{extends 'main.html' /}
+#{set title:'Endpoints' /}
+
+<div class="page-header">
+    <h1>Kernel Jobs</h1>
+</div>
+
+#{if jobs}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Target</th>
+            <th>Delay</th>
+            <th>Period</th>
+            <th>Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list jobs, as : 'job'}
+          <tr>
+            <td><b>${job.id}</b></td>
+            <td>${job.target}#${job.method}</td>
+            <td>${job.delay}</td>
+            <td>${job.period}</td>
+            <td>${job.unit}</td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if

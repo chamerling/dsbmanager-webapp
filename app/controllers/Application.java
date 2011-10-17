@@ -28,6 +28,8 @@ import org.petalslink.dsb.ws.api.RouterModuleService;
 import org.petalslink.dsb.ws.api.SOAPServiceBinder;
 import org.petalslink.dsb.ws.api.ServiceEndpoint;
 import org.petalslink.dsb.ws.api.ServiceInformation;
+import org.petalslink.dsb.ws.api.cron.CronJobBean;
+import org.petalslink.dsb.ws.api.cron.CronJobService;
 import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 
@@ -129,8 +131,8 @@ public class Application extends Controller {
 	public static void router() {
 		RouterModuleService routerModuleService = CXFHelper.getClient(getURL(),
 				RouterModuleService.class);
-		Set<RouterModule> receivers = routerModuleService.getReceivers();
-		Set<RouterModule> senders = routerModuleService.getSenders();
+		List<RouterModule> receivers = routerModuleService.getReceivers();
+		List<RouterModule> senders = routerModuleService.getSenders();
 		render(senders, receivers);
 	}
 
@@ -333,6 +335,21 @@ public class Application extends Controller {
 					e.getMessage());
 		}
 		monitoring();
+	}
+	
+	/**
+	 * Get the kernel jobs
+	 */
+	public static void jobs() {
+		CronJobService jobsService = CXFHelper.getClient(getURL(), CronJobService.class);
+		try {
+			List<CronJobBean> jobs = jobsService.get();
+			render(jobs);
+		} catch (Exception e) {
+			flash.error("Can not get jobs from the DSB, cause '%s'!",
+					e.getMessage());
+		}
+		index();
 	}
 
 	private static String getURL() {
