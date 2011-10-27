@@ -9,23 +9,23 @@ require:
         exclude:
           - org.slf4j -> *
     - org.petalslink.dsb -> dsb-kernel-wsapi 1.0-SNAPSHOT:
-        exclude: 
+        exclude:
           - org.slf4j -> *
     - org.ow2.petals -> petals-kernel-wsapi 1.0:
         exclude:
           - org.slf4j -> *
-    
+
 repositories:
 - petalslink:
     type: iBiblio
     root: "http://maven.petalslink.com/public-snapshot/"
     contains:
         - org.petalslink.dsb -> *
-        
+
 - petalslinkrelease:
     type: iBiblio
     root: "http://maven.petalslink.com/public/"
-    
+
 - petalslinkothers:
     type: iBiblio
     root: "http://maven.petalslink.com/others/"

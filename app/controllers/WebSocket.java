@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package controllers;
 
@@ -16,7 +16,7 @@ import play.utils.HTML;
 
 /**
  * @author chamerling
- * 
+ *
  */
 public class WebSocket extends WebSocketController {
 

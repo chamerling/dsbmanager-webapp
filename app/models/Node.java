@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package models;
 
@@ -10,7 +10,7 @@ import play.mvc.Scope.Session;
 
 /**
  * @author chamerling
- * 
+ *
  */
 @Entity
 public class Node extends Model {

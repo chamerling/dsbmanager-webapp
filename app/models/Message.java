@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package models;
 
@@ -13,7 +13,7 @@ import play.db.jpa.Model;
 
 /**
  * @author chamerling
- * 
+ *
  */
 @Entity
 public class Message extends Model {
@@ -23,11 +23,11 @@ public class Message extends Model {
 	public long date;
 
 	public String service;
-	
+
 	public String operation;
-	
+
 	public String endpoint;
-	
+
 	public String itf;
 
 	//public long responseTime;
@@ -66,7 +66,7 @@ public class Message extends Model {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

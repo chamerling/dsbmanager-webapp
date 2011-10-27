@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package utils;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * @author chamerling
- * 
+ *
  */
 public class DateHelper {
 
@@ -28,7 +28,7 @@ public class DateHelper {
 		}
 		return l;
 	}
-	
+
 	public static void main(String[] args) {
 		getLong("2011-09-27T10:00:58.369+02:00");
 	}

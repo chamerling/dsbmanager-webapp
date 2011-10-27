@@ -1,11 +1,11 @@
 Node(Local1):
     name: LocalNode1
     baseURL: http://localhost:7600/petals/ws
-    
+
 Node(Local2):
     name: LocalNode2
     baseURL: http://localhost:7601/petals/ws
-    
+
 Node(Local3):
     name: LocalNode3
     baseURL: http://localhost:7602/petals/ws

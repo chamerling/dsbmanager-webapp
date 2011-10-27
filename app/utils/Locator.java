@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package utils;
 
@@ -13,7 +13,7 @@ import org.petalslink.dsb.ws.api.ServiceInformation;
 
 /**
  * @author chamerling
- * 
+ *
  */
 public class Locator {
 
@@ -21,7 +21,7 @@ public class Locator {
 	 * Try to find a business service which endpoint contains the given input
 	 * string. Dummy way to lookup service until we have a reall governance
 	 * tool...
-	 * 
+	 *
 	 * @param pattern
 	 * @param node
 	 * @return

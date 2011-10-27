@@ -336,7 +336,7 @@ public class Application extends Controller {
 		}
 		monitoring();
 	}
-	
+
 	/**
 	 * Get the kernel jobs
 	 */
