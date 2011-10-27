@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package controllers;
 
@@ -25,9 +25,9 @@ import utils.XMLHelper;
 
 /**
  * Accept anything POX/SOAP/ store and publish messages...
- * 
+ *
  * @author chamerling
- * 
+ *
  */
 public class Services extends Controller {
 
@@ -43,7 +43,7 @@ public class Services extends Controller {
 
 	/**
 	 * Accept anything, do not care about the message format...
-	 * 
+	 *
 	 */
 	public static void any() {
 		long date = System.currentTimeMillis();
@@ -103,7 +103,7 @@ public class Services extends Controller {
 		message.date = date;
 		message.exception = false;
 		WebSocket.liveStream.publish(message);
-		
+
 		render("Services/MonitoringService_Response.xml");
 	}
 

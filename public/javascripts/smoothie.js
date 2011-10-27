@@ -41,7 +41,7 @@ function TimeSeries(options) {
   options.resetBounds = options.resetBounds || true; // Enable or disable the resetBounds timer
   this.options = options;
   this.data = [];
-  
+
   this.maxValue = Number.NaN; // The maximum value ever seen in this time series.
   this.minValue = Number.NaN; // The minimum value ever seen in this time series.
 
@@ -125,7 +125,7 @@ SmoothieChart.prototype.render = function(canvas, time) {
 
   // Move the origin.
   canvasContext.translate(dimensions.left, dimensions.top);
-  
+
   // Create a clipped rectangle - anything we draw will be constrained to this rectangle.
   // This prevents the occasional pixels from curves near the edges overrunning and creating
   // screen cheese (that phrase should neeed no explanation).

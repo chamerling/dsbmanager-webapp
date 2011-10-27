@@ -1,11 +1,11 @@
 /**
- * 
+ *
  */
 package beans;
 
 /**
  * @author chamerling
- * 
+ *
  */
 public class RegistryListener {
 

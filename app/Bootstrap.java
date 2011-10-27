@@ -21,8 +21,8 @@ import play.test.Fixtures;
 /**
  * Bootstrap some init data to avoid some useless test for the application long
  * life time
- * 
- * 
+ *
+ *
  */
 @OnApplicationStart
 public class Bootstrap extends Job {

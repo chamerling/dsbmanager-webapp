@@ -58,7 +58,7 @@
 		</tr>
 	</tbody>
 </table>
-		
+
 <script type="text/javascript">
 		$(function() {
 		    var series = new Array();
@@ -75,7 +75,7 @@
 		    colors[7] = 'rgb(255, 120, 200)';
 		    colors[8] = 'rgb(200, 120, 255)';
 		    colors[9] = 'rgb(255, 110, 150)';
-		    
+
 		    var fill = new Array();
 		    fill[0] = 'rgba(255, 0, 0, 0.4)';
 		    fill[1] = 'rgba(0, 255, 0, 0.4)';
@@ -87,10 +87,10 @@
 		    fill[7] = 'rgba(255, 120, 200, 0.4)';
 		    fill[8] = 'rgba(200, 120, 255, 0.4)';
 		    fill[9] = 'rgba(255, 110, 150, 0.4)';
-		    
+
 		    var i = 0;
 		    var color = 0;
-			
+
 			var smoothieChart = new SmoothieChart({ grid: { strokeStyle: 'rgb(125, 0, 0)', fillStyle: 'rgb(10, 10, 10)', lineWidth: 1, millisPerLine: 1000, verticalSections: 5 }, interpolation: 'bezier', minValue : 0 });
 			smoothieChart.streamTo(document.getElementById("mycanvas"));
 
@@ -99,43 +99,43 @@
 
 				conn.onmessage = function(evt) {
 					//$("#log").text(evt.data);
-					
+
 					var d = $.parseJSON(evt.data);
-					
+
 					var inArray = $.inArray(d.endpoint, endpoints);
 					//$("#log").text(inArray);
 					if (inArray == -1) {
 					  endpoints[i] = d.endpoint;
-					  
+
 					  // create a new serie
 					  var newSerie = new TimeSeries();
 					  series[i] = newSerie;
-					  
+
 					  i++;
-					  
+
 					  smoothieChart.addTimeSeries(newSerie, { strokeStyle:colors[color], fillStyle:fill[color], lineWidth:2 });
 					  // bad hack...
-					  
+
 					  $("#endpoints").append('<b><font style=\"color:'+colors[color]+';\">&nbsp;'+d.endpoint+'&nbsp;</font></b>');
 					   color++;
 					  if (color == 10) {
 					  	color = 0;
 					  }
 					}
-					
+
 					// get the serie and publish data into
 					inArray = $.inArray(d.endpoint, endpoints);
 					var currentSerie = series[inArray];
-					
+
 					var diff = parseFloat(d.t4) - parseFloat(d.t1);
-										
+
 					$("#date").text(d.date);
 					$("#service").text(d.service);
 					$("#endpoint").text(d.endpoint);
 					$("#interface").text(d.itf);
 					$("#operation").text(d.operation);
 					$("#response").text(diff);
-					
+
 					currentSerie.append(new Date().getTime(), parseFloat(diff));
 				};
 

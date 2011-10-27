@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package utils;
 
@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
 
 /**
  * @author chamerling
- * 
+ *
  */
 public class XMLHelper {
 
