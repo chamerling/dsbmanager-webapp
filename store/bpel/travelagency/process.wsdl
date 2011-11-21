@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://org.ow2.petals/demo/travelagency/agency/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:p="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="travelAgency" targetNamespace="http://org.ow2.petals/demo/travelagency/agency/">
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://org.ow2.petals/demo/travelagency/agency/">
+      <complexType name="travelAgencyRequest">
+        <sequence>
+          <element name="lastname" type="string" />
+          <element name="firstname" type="string" />
+          <element name="startDate" type="dateTime" />
+          <element name="endDate" type="dateTime" />
+          <element name="address" type="string" />
+          <element name="from" type="string" />
+          <element name="to" type="string" />
+        </sequence>
+      </complexType>
+      <complexType name="travelAgencyResponse">
+        <sequence>
+          <element name="validated" type="boolean" />
+          <element name="airLineReservationId" type="int" />
+          <element name="hotelReservationId" type="long" />
+          <element name="carReservationId" type="string" />
+        </sequence>
+      </complexType>
+<!--      <complexType name="hotelConfirmationRequestType">-->
+<!--        <sequence>-->
+<!--          <element name="lastname" type="string" />-->
+<!--          <element name="firstname" type="string" />-->
+<!--          <element name="validated" type="boolean" />-->
+<!--          <element name="reservationId" type="long" />-->
+<!--        </sequence>-->
+<!--      </complexType>-->
+    </schema>
+  </types>
+<!--  <message name="hotelConfirmationRequest">-->
+<!--    <part name="hotelConfirmationRequest" type="tns:hotelConfirmationRequestType" />-->
+<!--  </message>-->
+  <message name="travelAgencyRequestMessage">
+    <part name="payload" type="tns:travelAgencyRequest" />
+  </message>
+  <message name="travelAgencyResponseMessage">
+    <part name="payload" type="tns:travelAgencyResponse" />
+  </message>
+  <portType name="travelAgency">
+    <operation name="process">
+      <input name="travelAgencyRequestMessage" message="tns:travelAgencyRequestMessage" />
+      <output name="travelAgencyResponseMessage" message="tns:travelAgencyResponseMessage" />
+    </operation>
+  </portType>
+  <binding name="travelAgencyBinding" type="tns:travelAgency">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="process">
+      <soap:operation soapAction="http://org.ow2.petals/demo/travelagency/agency/process" />
+      <input name="travelAgencyRequestMessage">
+        <soap:body use="literal" />
+      </input>
+      <output name="travelAgencyResponseMessage">
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="travelAgencyService">
+    <port name="travelAgencyServiceEndpoint" binding="tns:travelAgencyBinding">
+      <soap:address location="travelAgencyServiceEndpoint" />
+    </port>
+  </service>
+  <plnk:partnerLinkType name="travelAgency">
+    <plnk:role name="travelAgencyProvider" portType="tns:travelAgency" />
+  </plnk:partnerLinkType>
+</definitions>
+

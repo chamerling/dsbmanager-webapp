@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:impl="http://org.ow2.petals/demo/travelagency/airline/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:intf="http://org.ow2.petals/demo/travelagency/airline/" targetNamespace="http://org.ow2.petals/demo/travelagency/airline/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://org.ow2.petals/demo/travelagency/airline/">
+      <element name="bookFlight">
+        <complexType>
+          <sequence>
+            <element name="request" type="impl:BookingRequest" />
+          </sequence>
+        </complexType>
+      </element>
+      <complexType name="BookingRequest">
+        <sequence>
+          <element name="lastname" nillable="true" type="xsd:string" />
+          <element name="firstname" nillable="true" type="xsd:string" />
+          <element name="start" nillable="true" type="xsd:dateTime" />
+          <element name="end" nillable="true" type="xsd:dateTime" />
+          <element name="from" nillable="true" type="xsd:string" />
+          <element name="to" nillable="true" type="xsd:string" />
+        </sequence>
+      </complexType>
+      <element name="bookFlightResponse">
+        <complexType>
+          <sequence>
+            <element name="bookFlightReturn" type="impl:BookingResponse" />
+          </sequence>
+        </complexType>
+      </element>
+      <complexType name="BookingResponse">
+        <sequence>
+          <element name="reservationId" type="xsd:long" />
+          <element name="booked" type="xsd:boolean" />
+        </sequence>
+      </complexType>
+      <element name="cancel">
+        <complexType>
+          <sequence>
+            <element name="reservationId" type="long" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="cancelResponse">
+        <complexType>
+          <sequence>
+            <element name="out" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="bookFlightResponse">
+    <wsdl:part name="parameters" element="impl:bookFlightResponse" />
+  </wsdl:message>
+  <wsdl:message name="bookFlightRequest">
+    <wsdl:part name="parameters" element="impl:bookFlight" />
+  </wsdl:message>
+  <wsdl:message name="cancelRequest">
+    <wsdl:part name="parameters" element="impl:cancel" />
+  </wsdl:message>
+  <wsdl:message name="cancelResponse">
+    <wsdl:part name="parameters" element="impl:cancelResponse" />
+  </wsdl:message>
+  <wsdl:portType name="AirLineBook">
+    <wsdl:operation name="bookFlight">
+      <wsdl:input name="bookFlightRequest" message="impl:bookFlightRequest" />
+      <wsdl:output name="bookFlightResponse" message="impl:bookFlightResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="cancel">
+      <wsdl:input message="impl:cancelRequest" />
+      <wsdl:output message="impl:cancelResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AirLineBookSoapBinding" type="impl:AirLineBook">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="bookFlight">
+      <wsdlsoap:operation soapAction="http://org.ow2.petals/demo/travelagency/airline/bookFlight" />
+      <wsdl:input name="bookFlightRequest">
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="bookFlightResponse">
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancel">
+      <wsdlsoap:operation soapAction="http://org.ow2.petals/demo/travelagency/airline/cancel" />
+      <wsdl:input>
+        <wsdlsoap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsdlsoap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AirLineBookService">
+    <wsdl:port name="AirLineBook" binding="impl:AirLineBookSoapBinding">
+      <wsdlsoap:address location="AirLineBookServiceEndpoint" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

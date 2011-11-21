@@ -14,6 +14,9 @@ require:
     - org.ow2.petals -> petals-kernel-wsapi 1.0:
         exclude:
           - org.slf4j -> *
+    - org.petalslink.dsb -> dsb-kernel-bpelwsclient 1.0-SNAPSHOT:
+        exclude: 
+          - org.slf4j -> *
     
 repositories:
 - petalslink:

@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set title:'Business : BPEL' /}
+
+<div class="page-header">
+    <h1>BPEL Management</h1>
+</div>
+
+<div class="well">
+	Manage the BPEL process for this service bus node.
+</div>
+
+<h2>BPEL Process</h2>
+<table>
+	<thead><th>Name</th><th>Description</th><th>State</th><th>Actions</th></thead>
+	<tbody>
+	    #{list bpels, as : 'b'}
+		<tr><td><b>${b.name}</b></td><td>-</td><td>${b.state}</td><td><a href="@{Application.deployBPEL(b.name)}" class="btn danger">Deploy</a></td></tr>
+		#{/list}
+	</tbody>
+</table>

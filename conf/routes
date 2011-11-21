@@ -25,7 +25,8 @@ GET     /jbi                                    Application.jbi
 GET     /jbi/sa/{saName}                        Application.jbisa
 GET     /jbi/su/{saName}/{su}                   Application.jbisu
 GET     /jbi/component/{name}                   Application.jbicomponent
-
+GET		/bpel									Application.bpel
+GET		/bpel/deploy/{name}						Application.deployBPEL
 GET     /monitoring                             Application.monitoring
 GET     /monitoring/activate/{state}            Application.monitor
 GET     /monitoring/subscribe                   Application.subscribeToMonitoring

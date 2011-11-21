@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://org.ow2.petals/demo/travelagency/hotel/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="hotel" targetNamespace="http://org.ow2.petals/demo/travelagency/hotel/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://org.ow2.petals/demo/travelagency/hotel/">
+       <xsd:complexType name="hotelResponse">
+        <xsd:sequence>
+          <xsd:element name="lastname" type="xsd:string" />
+          <xsd:element name="firstname" type="xsd:string" />
+          <xsd:element name="validated" type="xsd:boolean" />
+          <xsd:element name="reservationId" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="bookRoom">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="lastname" type="xsd:string" />
+            <xsd:element name="firstname" type="xsd:string" />
+            <xsd:element name="address" type="xsd:string" />
+            <xsd:element name="date" type="xsd:dateTime" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="bookRoomResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="tns:hotelResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="bookRoomRequest">
+    <wsdl:part element="tns:bookRoom" name="parameters" />
+  </wsdl:message>
+  <wsdl:message name="bookRoomResponse">
+    <wsdl:part element="tns:bookRoomResponse" name="parameters" />
+  </wsdl:message>
+    <wsdl:portType name="hotel">
+    <wsdl:operation name="bookRoom">
+      <wsdl:input message="tns:bookRoomRequest" />
+      <wsdl:output message="tns:bookRoomResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="hotelSOAP" type="tns:hotel">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="bookRoom">
+      <soap:operation soapAction="http://org.ow2.petals/demo/travelagency/hotel/bookRoom" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="hotel">
+    <wsdl:port binding="tns:hotelSOAP" name="hotelSOAP">
+      <soap:address location="HotelServiceAddress" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

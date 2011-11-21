@@ -1,11 +1,15 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import models.BPEL;
 import models.Node;
 
 import org.ow2.petals.kernel.ws.api.EndpointService;
@@ -32,6 +36,7 @@ import org.petalslink.dsb.ws.api.cron.CronJobBean;
 import org.petalslink.dsb.ws.api.cron.CronJobService;
 import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
+import org.petalslink.dsb.ws.bpel.client.BPELDeployerClient;
 
 import play.data.validation.URL;
 import play.mvc.Before;
@@ -336,12 +341,13 @@ public class Application extends Controller {
 		}
 		monitoring();
 	}
-	
+
 	/**
 	 * Get the kernel jobs
 	 */
 	public static void jobs() {
-		CronJobService jobsService = CXFHelper.getClient(getURL(), CronJobService.class);
+		CronJobService jobsService = CXFHelper.getClient(getURL(),
+				CronJobService.class);
 		try {
 			List<CronJobBean> jobs = jobsService.get();
 			render(jobs);
@@ -350,6 +356,60 @@ public class Application extends Controller {
 					e.getMessage());
 		}
 		index();
+	}
+
+	/**
+	 * Get all the BPEL files
+	 * 
+	 * @return
+	 */
+	public static void bpel() {
+		// connection test...
+		getURL();
+
+		List<BPEL> bpels = BPEL.getAll();
+		render(bpels);
+	}
+
+	public static void deployBPEL(String name) {
+		String url = getURL();
+
+		// get the local BPEL data from its name
+		BPEL bpel = BPEL.get(name);
+		if (bpel == null) {
+			flash.error("No such BPEL process");
+			bpel();
+		}
+
+		// get the BPEL files and all the attachments
+		File[] bpels = bpel.folder.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.getPath().toLowerCase().endsWith(".bpel");
+			}
+		});
+		
+		if (bpels == null || bpels.length != 1) {
+			flash.error("Bad number of BPEL files...");
+			bpel();
+		}
+		
+		File[] files = bpel.folder.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				return !pathname.getPath().toLowerCase().endsWith(".bpel");
+			}
+		});
+		
+		BPELDeployerClient client = new BPELDeployerClient(url);
+		try {
+			client.deploy(bpels[0], files);
+			flash.success("BPEL process '%s' has been deployed", name);
+		} catch (Exception e) {
+			flash.error("Can not deploy BPEL to the DSB, cause '%s'!",
+					e.getMessage());
+		}
+		bpel();
 	}
 
 	private static String getURL() {
