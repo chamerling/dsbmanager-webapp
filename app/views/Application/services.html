@@ -9,8 +9,6 @@
 	<a class="btn primary" href="@{Application.exposeNow()}">Expose Now!</a>&nbsp;
 </div>
 
-
-
 <div class="page-header">
     <h1>Bind service</h1>
 </div>
@@ -47,7 +45,7 @@
         #{list services, as : 'service'}
           <tr>
             <td><a href="${service}">${service}</a></td>
-            <td><a href="#" class="btn info">Details</a></td>
+            <td><a href="${service}" target="_blank" class="btn info">Details</a></td>
           </tr>
         #{/list}
         </tbody>
@@ -69,7 +67,7 @@
         #{list exposed, as : 's'}
           <tr>
             <td><a href="${s}?wsdl">${s}?wsdl</a></td>
-            <td><a href="#" class="btn info">Details</a></td>
+            <td><a href="${s}?wsdl" target="_blank" class="btn info">Details</a></td>
           </tr>
         #{/list}
         </tbody>
