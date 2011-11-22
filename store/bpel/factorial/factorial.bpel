@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpws:process exitOnStandardFault="yes" name="factorialDocumentPT"
+    targetNamespace="http://petals.ow2.org/"
+    xmlns:addr="http://www.w3.org/2005/08/addressing"
+    xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sref=" http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+    xmlns:tns="http://petals.ow2.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="factorial.wsdl" namespace="http://petals.ow2.org/"/>
+    <bpws:partnerLinks>
+        <bpws:partnerLink myRole="role" name="receiver" partnerLinkType="tns:factorialDocumentLT"/>
+        <bpws:partnerLink name="invoker"
+            partnerLinkType="tns:factorialDocumentLT" partnerRole="role"/>
+    </bpws:partnerLinks>
+    <bpws:variables>
+        <bpws:variable messageType="tns:factorialMessage" name="input"/>
+        <bpws:variable messageType="tns:factorialMessage" name="output"/>
+        <bpws:variable messageType="tns:factorialMessage" name="callIn"/>
+        <bpws:variable messageType="tns:factorialMessage" name="callOut"/>
+    </bpws:variables>
+    <bpws:sequence>
+        <bpws:receive createInstance="yes"
+            name="ReceiveFactorialDocument" operation="factorial"
+            partnerLink="receiver" portType="tns:factorialDocumentPT" variable="input"/>
+        <bpws:if name="condition">
+            <bpws:condition><![CDATA[$input.value >= 1]]></bpws:condition>
+            <bpws:sequence name="sequence" >
+                <bpws:assign name="decrement" validate="no">
+                    <bpws:copy>
+                        <bpws:from><![CDATA[$input.value - 1]]></bpws:from>
+                        <bpws:to><![CDATA[$callIn.value]]></bpws:to>
+                    </bpws:copy>
+                </bpws:assign>
+                <bpws:invoke inputVariable="callIn" name="recursiveCall"
+                    operation="factorial" outputVariable="callOut"
+                    partnerLink="invoker" portType="tns:factorialDocumentPT"/>
+                <bpws:assign name="multiply" validate="no">
+                    <bpws:copy>
+                        <bpws:from><![CDATA[$input.value * $callOut.value]]></bpws:from>
+                        <bpws:to><![CDATA[$output.value]]></bpws:to>
+                    </bpws:copy>
+                </bpws:assign>
+            </bpws:sequence>
+            <bpws:else>
+                <bpws:assign name="defaultValue" validate="no">
+                    <bpws:copy>
+                        <bpws:from>
+                            <bpws:literal>1</bpws:literal>
+                        </bpws:from>
+                        <bpws:to><![CDATA[$output.value]]></bpws:to>
+                    </bpws:copy>
+                </bpws:assign>
+            </bpws:else>
+        </bpws:if>
+        <bpws:reply name="ReplyFactorialDocument" operation="factorial" partnerLink="receiver"
+            portType="tns:factorialDocumentPT" variable="output"/>
+    </bpws:sequence>
+</bpws:process>

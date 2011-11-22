@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://petals.ow2.org/Artifacts" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://petals.ow2.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="factorialArtifacts" targetNamespace="http://petals.ow2.org/Artifacts" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <vprop:property name="initVal" type="xsd:int"/>
+  <vprop:propertyAlias messageType="wsdl:factorialMessageRequest" part="request" propertyName="tns:initVal">
+    <vprop:query/>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias messageType="wsdl:factorialMessageResponse" part="response" propertyName="tns:initVal">
+    <vprop:query><![CDATA[/initialValue]]></vprop:query>
+  </vprop:propertyAlias>
+  <import location="factorial.wsdl" namespace="http://petals.ow2.org/"/>
+</definitions>

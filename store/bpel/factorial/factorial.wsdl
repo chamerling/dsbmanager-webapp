@@ -1,0 +1,51 @@
+<definitions targetNamespace="http://petals.ow2.org/"
+             xmlns:tns="http://petals.ow2.org/"
+             xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+             xmlns:sref="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+             xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <plnk:partnerLinkType name="factorialDocumentLT">
+    <plnk:role name="role" portType="tns:factorialDocumentPT" />
+  </plnk:partnerLinkType>
+
+  <types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://petals.ow2.org/">
+            <xsd:element name="valueElmt" type="xsd:int"></xsd:element>
+        </xsd:schema>
+    </types>
+
+  <message name="factorialMessage">
+    <part name="value" element="tns:valueElmt"/>
+  </message>
+
+  <portType name="factorialDocumentPT">
+    <operation name="factorial">
+      <input message="tns:factorialMessage"/>
+      <output message="tns:factorialMessage"/>
+    </operation>
+  </portType>
+
+  <binding name="factorialDocumentPTJBIBinding" type="tns:factorialDocumentPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="factorial">
+      <soap:operation soapAction="http://petals.ow2.org/"/>
+      <input>
+        <soap:body use="literal" namespace="http://petals.ow2.org/"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://petals.ow2.org/"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="factorialDocumentService">
+    <port name="factorialPort" binding="tns:factorialDocumentPTJBIBinding">
+      <soap:address location="factorialPort"/>
+    </port>
+  </service>
+
+</definitions>
