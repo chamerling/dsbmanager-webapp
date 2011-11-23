@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://demo.itemis/Turnstile" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Turnstile" targetNamespace="http://demo.itemis/Turnstile">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://demo.itemis/Turnstile">
+      <xsd:element name="close" type="tns:close" />
+      <xsd:complexType name="close">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="closeResponse" type="tns:closeResponse" />
+      <xsd:complexType name="closeResponse">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="open" type="tns:open" />
+      <xsd:complexType name="open">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="openResponse" type="tns:openResponse" />
+      <xsd:complexType name="openResponse">
+        <xsd:sequence />
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="open">
+    <wsdl:part name="parameters" element="tns:open" />
+  </wsdl:message>
+  <wsdl:message name="openResponse">
+    <wsdl:part name="parameters" element="tns:openResponse" />
+  </wsdl:message>
+  <wsdl:message name="closeResponse">
+    <wsdl:part name="parameters" element="tns:closeResponse" />
+  </wsdl:message>
+  <wsdl:message name="close">
+    <wsdl:part name="parameters" element="tns:close" />
+  </wsdl:message>
+  <wsdl:portType name="Turnstile">
+    <wsdl:operation name="close">
+      <wsdl:input name="close" message="tns:close" />
+      <wsdl:output name="closeResponse" message="tns:closeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="open">
+      <wsdl:input name="open" message="tns:open" />
+      <wsdl:output name="openResponse" message="tns:openResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="TurnstileSoapBinding" type="tns:Turnstile">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="close">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="close">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="closeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="open">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="open">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="openResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TurnstileService">
+    <wsdl:port name="TurnstilePort" binding="tns:TurnstileSoapBinding">
+      <soap:address location="http://localhost:9090/Turnstile" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

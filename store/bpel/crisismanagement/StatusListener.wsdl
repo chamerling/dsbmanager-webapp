@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://demo.itemis/StatusListener" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="StatusListener" targetNamespace="http://demo.itemis/StatusListener">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://demo.itemis/StatusListener" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://demo.itemis/StatusListener">
+      <xs:complexType name="status">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="id" type="xs:string" />
+          <xs:element minOccurs="0" name="status" type="xs:string" />
+          <xs:element minOccurs="0" name="timestramp" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="notifyStatus" type="notifyStatus" />
+      <xs:complexType name="notifyStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="status" type="status" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="notifyStatusResponse" type="notifyStatusResponse" />
+      <xs:complexType name="notifyStatusResponse">
+        <xs:sequence />
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="notifyStatus">
+    <wsdl:part name="parameters" element="tns:notifyStatus" />
+  </wsdl:message>
+  <wsdl:message name="notifyStatusResponse">
+    <wsdl:part name="parameters" element="tns:notifyStatusResponse" />
+  </wsdl:message>
+  <wsdl:portType name="StatusListener">
+    <wsdl:operation name="notifyStatus">
+      <wsdl:input name="notifyStatus" message="tns:notifyStatus" />
+      <wsdl:output name="notifyStatusResponse" message="tns:notifyStatusResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StatusListenerSoapBinding" type="tns:StatusListener">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="notifyStatus">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="notifyStatus">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="notifyStatusResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StatusListenerService">
+    <wsdl:port name="StatusListenerPort" binding="tns:StatusListenerSoapBinding">
+      <soap:address location="http://localhost:9090/StatusListener" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

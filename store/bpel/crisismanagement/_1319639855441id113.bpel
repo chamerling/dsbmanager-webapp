@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:process xmlns:ns10="http://itemis.org"
+	xmlns:ns2="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+	xmlns:ns3="http://docs.oasis-open.org/wsbpel/2.0/process/abstract"
+	xmlns:ns4="http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+	xmlns:sprinkler="http://demo.itemis/Sprinkler" xmlns:turnstile="http://demo.itemis/Turnstile"
+	xmlns:status="http://demo.itemis/StatusListener" xmlns:emergency="http://demo.itemis/Emergency"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" name="_1319639855441id113"
+	ns10:Tf="&lt;=0.7s" targetNamespace="http://com.ebmwebsourcing.petalsbpm/model">
+	<ns2:import importType="http://schemas.xmlsoap.org/wsdl/"
+		location="Emergency.wsdl" namespace="http://demo.itemis/Emergency" />
+	<ns2:import importType="http://schemas.xmlsoap.org/wsdl/"
+		location="Turnstile.wsdl" namespace="http://demo.itemis/Turnstile" />
+	<ns2:import importType="http://schemas.xmlsoap.org/wsdl/"
+		location="Sprinkler.wsdl" namespace="http://demo.itemis/Sprinkler" />
+	<ns2:import importType="http://schemas.xmlsoap.org/wsdl/"
+		location="StatusListener.wsdl" namespace="http://demo.itemis/StatusListener" />
+	<ns2:import importType="http://schemas.xmlsoap.org/wsdl/"
+		location="_1319639855728id114Artefacts.wsdl" namespace="http://com.ebmwebsourcing.petalsbpm/model/artefacts" />
+	<ns2:partnerLinks>
+		<ns2:partnerLink xmlns:ns="http://com.ebmwebsourcing.petalsbpm/model/artefacts"
+			name="Smoke_Detector_StatusListener" partnerLinkType="ns:Smoke_Detector_StatusListenerPLT"
+			partnerRole="StatusListener" />
+		<ns2:partnerLink xmlns:ns="http://com.ebmwebsourcing.petalsbpm/model/artefacts"
+			name="Smoke_Detector_Sprinkler" partnerLinkType="ns:Smoke_Detector_SprinklerPLT"
+			partnerRole="Sprinkler" />
+		<ns2:partnerLink xmlns:ns="http://com.ebmwebsourcing.petalsbpm/model/artefacts"
+			partnerRole="Turnstile" name="Emergency_Center_Turnstile"
+			partnerLinkType="ns:Emergency_Center_TurnstilePLT" />
+		<ns2:partnerLink xmlns:ns="http://com.ebmwebsourcing.petalsbpm/model/artefacts"
+			myRole="Emergency" name="Emergency_Center_Emergency" partnerLinkType="ns:Emergency_Center_EmergencyPLT" />
+	</ns2:partnerLinks>
+	<ns2:variables>
+		<ns2:variable element="sprinkler:stop" name="stopVariable" />
+		<ns2:variable element="turnstile:close" name="closeVariable" />
+		<ns2:variable element="turnstile:closeResponse" name="closeResponseVariable" />
+		<ns2:variable element="status:notifyStatus" name="notifyStatusVariable" />
+		<ns2:variable element="turnstile:open" name="openVariable" />
+		<ns2:variable element="turnstile:openResponse" name="openResponseVariable" />
+		<ns2:variable element="emergency:end" name="endVariable" />
+		<ns2:variable element="sprinkler:stopResponse" name="stopResponseVariable" />
+		<ns2:variable name="Smoke_Detector_SprinklerResponse"
+			element="sprinkler:stopResponse"></ns2:variable>
+		<ns2:variable name="Smoke_Detector_SprinklerRequest"
+			element="sprinkler:stop"></ns2:variable>
+		
+        <ns2:variable name="Smoke_Detector_StatusListenerResponse" element="status:notifyStatusResponse"></ns2:variable>
+        <ns2:variable name="Smoke_Detector_StatusListenerRequest" element="status:notifyStatus"></ns2:variable>
+        <ns2:variable name="Emergency_Center_EmergencyResponse" element="emergency:endResponse"></ns2:variable>
+    </ns2:variables>
+	<ns2:sequence name="main">
+		<ns2:receive createInstance="yes" ns10:Ur="100%"
+			operation="end" partnerLink="Emergency_Center_Emergency" portType="emergency:Emergency"
+			variable="endVariable" />
+		
+        <ns2:invoke  inputVariable="openVariable" name="Set off Alarm" operation="open" outputVariable="openResponseVariable" partnerLink="Emergency_Center_Turnstile" portType="turnstile:Turnstile"/>
+        <ns3:assign validate="no" name="AssignNotifyStatus">
+            <ns3:copy>
+                <ns3:from>
+                    
+                    <![CDATA[1]]>
+                </ns3:from>
+                <ns3:to>
+                    
+                    <![CDATA[$notifyStatusVariable/status/id]]>
+                </ns3:to>
+            </ns3:copy>
+            <ns3:copy>
+                <ns3:from>
+                    <![CDATA[active]]>
+                </ns3:from>
+                <ns3:to>
+                    <![CDATA[$notifyStatusVariable/status/status]]>
+                </ns3:to>
+            </ns3:copy>
+            
+        </ns3:assign>
+        <ns2:invoke inputVariable="Smoke_Detector_StatusListenerRequest" name="Manage_the_emergency" operation="notifyStatus" partnerLink="Smoke_Detector_StatusListener" portType="status:StatusListener" outputVariable="Smoke_Detector_StatusListenerResponse"/>
+	    <ns2:invoke inputVariable="closeVariable" name="Close_Emergency" operation="close" outputVariable="closeResponseVariable" partnerLink="Emergency_Center_Turnstile" portType="turnstile:Turnstile"/>
+        <ns2:invoke name="Stop water spray" partnerLink="Smoke_Detector_Sprinkler" operation="stop" portType="sprinkler:Sprinkler" inputVariable="Smoke_Detector_SprinklerRequest" outputVariable="Smoke_Detector_SprinklerResponse"></ns2:invoke>
+        <ns3:assign validate="no" name="Assign">
+            <ns3:copy>
+                <ns3:from>
+                    <ns3:literal xml:space="preserve">end</ns3:literal>
+                </ns3:from>
+                <ns3:to>
+                    
+                    <![CDATA[$Emergency_Center_EmergencyResponse/emergency:out]]>
+                </ns3:to>
+            </ns3:copy>
+        </ns3:assign>
+        <ns2:reply name="Reply" partnerLink="Emergency_Center_Emergency" operation="end" portType="emergency:Emergency" variable="Emergency_Center_EmergencyResponse"></ns2:reply>
+    </ns2:sequence>
+</ns2:process>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl11:definitions xmlns:wsdl11="http://schemas.xmlsoap.org/wsdl/" xmlns:bpmn20="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI" xmlns:ns4="http://www.omg.org/spec/DD/20100524/DC" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdla="http://demo.itemis/StatusListener" xmlns:wsdlb="http://demo.itemis/Sprinkler" xmlns:wsdlc="http://demo.itemis/Turnstile" xmlns:wsdld="http://demo.itemis/Emergency" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="_1319639855728id114Artefacts" targetNamespace="http://com.ebmwebsourcing.petalsbpm/model/artefacts">
+  <plnk:partnerLinkType name="Smoke_Detector_StatusListenerPLT">
+    <plnk:role name="StatusListener" portType="wsdla:StatusListener" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="Smoke_Detector_SprinklerPLT">
+    <plnk:role name="Sprinkler" portType="wsdlb:Sprinkler" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="Emergency_Center_TurnstilePLT">
+    <plnk:role name="Turnstile" portType="wsdlc:Turnstile" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="Emergency_Center_EmergencyPLT">
+    <plnk:role name="Emergency" portType="wsdld:Emergency" />
+  </plnk:partnerLinkType>
+  <wsdl11:import location="Emergency.wsdl" namespace="http://demo.itemis/Emergency" />
+  <wsdl11:import location="Sprinkler.wsdl" namespace="http://demo.itemis/Sprinkler" />
+  <wsdl11:import location="StatusListener.wsdl" namespace="http://demo.itemis/StatusListener" />
+  <wsdl11:import location="Turnstile.wsdl" namespace="http://demo.itemis/Turnstile" />
+</wsdl11:definitions>
+

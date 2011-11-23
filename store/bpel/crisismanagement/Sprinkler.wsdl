@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://demo.itemis/Sprinkler" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Sprinkler" targetNamespace="http://demo.itemis/Sprinkler">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://demo.itemis/Sprinkler">
+      <xsd:element name="start" type="tns:start" />
+      <xsd:complexType name="start">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="startResponse" type="tns:startResponse" />
+      <xsd:complexType name="startResponse">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="stop" type="tns:stop" />
+      <xsd:complexType name="stop">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="stopResponse" type="tns:stopResponse" />
+      <xsd:complexType name="stopResponse">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="isStarted" type="tns:isStarted" />
+      <xsd:complexType name="isStarted">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="isStartedResponse" type="tns:isStartedResponse" />
+      <xsd:complexType name="isStartedResponse">
+        <xsd:sequence>
+          <xsd:element name="return" type="xsd:boolean" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="stop">
+    <wsdl:part name="parameters" element="tns:stop" />
+  </wsdl:message>
+  <wsdl:message name="isStartedResponse">
+    <wsdl:part name="parameters" element="tns:isStartedResponse" />
+  </wsdl:message>
+  <wsdl:message name="stopResponse">
+    <wsdl:part name="parameters" element="tns:stopResponse" />
+  </wsdl:message>
+  <wsdl:message name="start">
+    <wsdl:part name="parameters" element="tns:start" />
+  </wsdl:message>
+  <wsdl:message name="startResponse">
+    <wsdl:part name="parameters" element="tns:startResponse" />
+  </wsdl:message>
+  <wsdl:message name="isStarted">
+    <wsdl:part name="parameters" element="tns:isStarted" />
+  </wsdl:message>
+  <wsdl:portType name="Sprinkler">
+    <wsdl:operation name="start">
+      <wsdl:input name="start" message="tns:start" />
+      <wsdl:output name="startResponse" message="tns:startResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="stop">
+      <wsdl:input name="stop" message="tns:stop" />
+      <wsdl:output name="stopResponse" message="tns:stopResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="isStarted">
+      <wsdl:input name="isStarted" message="tns:isStarted" />
+      <wsdl:output name="isStartedResponse" message="tns:isStartedResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SprinklerSoapBinding" type="tns:Sprinkler">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="start">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="start">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="startResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stop">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="stop">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="stopResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isStarted">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isStarted">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isStartedResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SprinklerService">
+    <wsdl:port name="SprinklerPort" binding="tns:SprinklerSoapBinding">
+      <soap:address location="http://localhost:9090/Sprinkler" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
+

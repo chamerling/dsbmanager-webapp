@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://demo.itemis/Emergency" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="Emergency"
+	targetNamespace="http://demo.itemis/Emergency">
+	<wsdl:types>
+		<xsd:schema attributeFormDefault="unqualified"
+			elementFormDefault="qualified" targetNamespace="http://demo.itemis/Emergency">
+			<xsd:element name="end" type="tns:end" />
+			<xsd:complexType name="end">
+				<xsd:sequence />
+			</xsd:complexType>
+			<xsd:element name="endResponse" type="tns:endResponse" />
+			<xsd:complexType name="endResponse">
+				<xsd:sequence>
+					<xsd:element name="out" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="endResponse">
+		<wsdl:part name="parameters" element="tns:endResponse" />
+	</wsdl:message>
+	<wsdl:message name="end">
+		<wsdl:part name="parameters" element="tns:end" />
+	</wsdl:message>
+	<wsdl:portType name="Emergency">
+		<wsdl:operation name="end">
+			<wsdl:input name="end" message="tns:end" />
+			<wsdl:output name="endResponse" message="tns:endResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="EmergencySOAPBinding" type="tns:Emergency">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="end">
+			<soap:operation soapAction="http://demo.itemis/Emergency/end" />
+			<wsdl:input name="end">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="endResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="EmergencyService">
+		<wsdl:port name="EmergencyPort" binding="tns:EmergencySOAPBinding">
+			<soap:address location="http://localhost:9090/Emergency" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
+
