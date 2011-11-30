@@ -9,3 +9,15 @@ Node(Local2):
 Node(Local3):
     name: LocalNode3
     baseURL: http://localhost:7602/petals/ws
+    
+Service(S1):
+    wsdlURL: http://localhostt:8080/foo/ws/WeatherService?wsdl
+    
+Service(S2):
+    wsdlURL: http://localhostt:8080/foo/ws/CarService?wsdl
+    
+Service(S3):
+    wsdlURL: http://localhostt:8080/foo/ws/FooService?wsdl
+    
+Service(S4):
+    wsdlURL: http://localhostt:8080/foo/ws/BarService?wsdl

@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FilenameFilter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +10,7 @@ import javax.xml.namespace.QName;
 
 import models.BPEL;
 import models.Node;
+import models.Service;
 
 import org.ow2.petals.kernel.ws.api.EndpointService;
 import org.ow2.petals.kernel.ws.api.JBIArtefactsService;
@@ -410,6 +410,14 @@ public class Application extends Controller {
 					e.getMessage());
 		}
 		bpel();
+	}
+	
+	/**
+	 * Get a list of web services, used to play with the DSB...
+	 */
+	public static void localregistry() {
+		List<Service> services = Service.findAll();
+		render(services);
 	}
 
 	private static String getURL() {

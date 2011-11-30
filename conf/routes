@@ -19,6 +19,7 @@ GET     /core/registry                          Application.registry
 GET     /core/jobs                              Application.jobs
 GET     /services                               Application.services
 GET     /services/expose                        Application.exposeNow
+GET     /services/local                         Application.localregistry
 POST    /postBind                               Application.postBind
 GET     /endpoints                              Application.endpoints
 GET     /jbi                                    Application.jbi

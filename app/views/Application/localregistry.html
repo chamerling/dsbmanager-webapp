@@ -1,0 +1,25 @@
+#{extends 'main.html' /}
+#{set title:'Local Registry' /}
+
+<div class="page-header">
+    <h1>Local Services <small>Use them to play with the Service Bus...</small></h1>
+</div>
+
+#{if services}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Service WSDL</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list services, as : 'service'}
+          <tr>
+            <td><a href="${service.wsdlURL}" target="_blank"">${service.wsdlURL}</a></td>
+            <td>#{form @Application.postBind()}<input type="hidden" name="wsdlURL" id="wsdlURL" value="${service.wsdlURL}"/><input class="btn primary" type="submit" value="Bind" />#{/form}</td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}
