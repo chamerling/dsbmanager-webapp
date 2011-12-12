@@ -21,3 +21,15 @@ Service(S3):
     
 Service(S4):
     wsdlURL: http://localhostt:8080/foo/ws/BarService?wsdl
+
+Service(HelloHeroku):
+    wsdlURL: http://chamerlingws.herokuapp.com/HelloService?wsdl
+
+Service(Sprinkler):
+    wsdlURL: http://localhost:9080/crisis/Sprinkler?wsdl
+
+Service(StatusListener):
+    wsdlURL: http://localhost:9080/crisis/StatusListener?wsdl
+
+Service(Turnstile):
+    wsdlURL: http://localhost:9080/crisis/Turnstile?wsdl

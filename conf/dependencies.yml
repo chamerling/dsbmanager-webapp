@@ -28,10 +28,3 @@ repositories:
 - petalslinkrelease:
     type: iBiblio
     root: "http://maven.petalslink.com/public/"
-    
-- petalslinkothers:
-    type: iBiblio
-    root: "http://maven.petalslink.com/others/"
-    contains:
-        - org.apache.cxf -> *
-
