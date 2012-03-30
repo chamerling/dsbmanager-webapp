@@ -54,7 +54,13 @@
             </ul>
           </ul>
           <ul class="nav secondary-nav">
-          	<li>#{if currentNode}<a href="@{Application.connect()}">Connected to <b>${currentNode?.name}</b></a>#{/if}#{else}<a href="@{Application.connect()}"><b>Connect...</b></a>#{/else}</li>
+            <li class="menu">
+          	#{if currentNode}<a href="@{Application.connect()}" class="menu">Connected to <b>${currentNode?.name}</b></a>#{/if}#{else}<a href="@{Application.connect()}" class="menu"><b>More...</b></a>#{/else}
+          	 <ul class="menu-dropdown">
+          	   <li>#{if currentNode}<a href="@{Application.connect()}">Disconnect...</a>#{/if}#{else}<a href="@{Application.connect()}">Connect to a node...</a>#{/else}</li>
+               <li><a href="/admin">Manage</a></li>
+             </ul>
+            </li>
           </ul>
         </div>
       </div> <!-- /fill -->
