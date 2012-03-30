@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import org.ow2.petals.kernel.ws.api.to.Endpoint;
 import org.ow2.petals.kernel.ws.api.to.ServiceAssembly;
 import org.ow2.petals.kernel.ws.api.to.SharedLib;
 import org.petalslink.dsb.cxf.CXFHelper;
+import org.petalslink.dsb.notification.client.http.simple.HTTPProducerRPClient;
 import org.petalslink.dsb.ws.api.DSBInformationService;
 import org.petalslink.dsb.ws.api.DSBWebServiceException;
 import org.petalslink.dsb.ws.api.ExposerService;
@@ -37,6 +39,14 @@ import org.petalslink.dsb.ws.api.cron.CronJobService;
 import org.petalslink.dsb.ws.api.jbi.ComponentInformationService;
 import org.petalslink.dsb.ws.api.jbi.ServiceArtefactsInformationService;
 import org.petalslink.dsb.ws.bpel.client.BPELDeployerClient;
+
+import com.ebmwebsourcing.wsstar.basefaults.datatypes.impl.impl.WsrfbfModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.basenotification.datatypes.impl.impl.WsnbModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.resource.datatypes.impl.impl.WsrfrModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.resourcelifetime.datatypes.impl.impl.WsrfrlModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.resourceproperties.datatypes.impl.impl.WsrfrpModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.topics.datatypes.impl.impl.WstopModelFactoryImpl;
+import com.ebmwebsourcing.wsstar.wsnb.services.impl.util.Wsnb4ServUtils;
 
 import play.data.validation.URL;
 import play.mvc.Before;
@@ -410,6 +420,49 @@ public class Application extends Controller {
 					e.getMessage());
 		}
 		bpel();
+	}
+	
+	/**
+	 * Get the current business topics exposed by the SOAP component. In order
+	 * to achieve that, get all the business services which are exposed and
+	 * badly get the notification producer...
+	 */
+	public static void topics() {
+		ServiceInformation information = CXFHelper.getClient(getURL(),
+				ServiceInformation.class);
+		
+		try {
+			Set<String> exposed = information.getExposedWebServices();
+			if (exposed.size() > 0) {
+				// get the service which contains
+				
+				boolean found = false;
+				Iterator<String> iter = exposed.iterator();
+				String url = null;
+				while (!found && iter.hasNext()) {
+					url = iter.next();
+					if (url != null && url.endsWith("petals/services/NotificationConsumerPortService")) {
+						found = true;
+					}
+				}
+				
+				if (found) {
+					// get the topics...
+					  Wsnb4ServUtils.initModelFactories(new WsrfbfModelFactoryImpl(),
+				                new WsrfrModelFactoryImpl(), new WsrfrlModelFactoryImpl(),
+				                new WsrfrpModelFactoryImpl(), new WstopModelFactoryImpl(),
+				                new WsnbModelFactoryImpl());
+					HTTPProducerRPClient client = new HTTPProducerRPClient(url);
+					List<QName> topics = client.getTopics();
+					render(topics);
+				}
+			} else {
+				flash.error("Can not retrieve the business notification service");
+			}
+		} catch (Exception e) {
+			flash.error(e.getMessage());
+		}
+		render();
 	}
 	
 	/**

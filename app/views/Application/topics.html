@@ -1,0 +1,29 @@
+#{extends 'main.html' /}
+#{set title:'Topics' /}
+
+<div class="page-header">
+    <h1>Topics <small>List business topics</small></h1>
+</div>
+
+#{if topics}
+	<table class="zebra-striped">
+        <thead>
+          <tr>
+            <th>Topic Name</th>
+            <th>Topic Namespace URI</th>
+            <th>Topic Prefix</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        #{list topics, as : 'topic'}
+          <tr>
+            <td><b>${topic.localPart}</b></td>
+            <td>${topic.namespaceURI}</td>
+            <td>${topic.prefix}</td>
+            <td><a href="#" class="btn info">Subscribe...</a></td>
+          </tr>
+        #{/list}
+        </tbody>
+      </table>
+#{/if}

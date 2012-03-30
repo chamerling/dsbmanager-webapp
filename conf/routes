@@ -32,6 +32,7 @@ GET     /monitoring                             Application.monitoring
 GET     /monitoring/activate/{state}            Application.monitor
 GET     /monitoring/subscribe                   Application.subscribeToMonitoring
 GET     /monitoring/unsubscribe                 Application.unsubcribeFromMonitoring
+GET     /notification/topics					Application.topics
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

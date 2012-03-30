@@ -17,6 +17,9 @@ require:
     - org.petalslink.dsb -> dsb-kernel-bpelwsclient 1.0-SNAPSHOT:
         exclude: 
           - org.slf4j -> *
+    - org.petalslink.dsb -> dsb-notification-httpclient 1.0-SNAPSHOT:
+        exclude: 
+          - org.slf4j -> *        
     
 repositories:
 - petalslink:
@@ -24,7 +27,22 @@ repositories:
     root: "http://maven.petalslink.com/public-snapshot/"
     contains:
         - org.petalslink.dsb -> *
+        - com.ebmwebsourcing.deprecated.oasis-ws-basenotification -> *
+        - com.ebmwebsourcing.experimental.experimental-parents -> *
+        - com.ebmwebsourcing -> *
+        - com.ebmwebsourcing.deprecated.oasis-ws-basefaults -> *
+        - com.ebmwebsourcing.deprecated.oasis-ws-topic -> *
+        - com.ebmwebsourcing.deprecated.oasis-ws-resource -> *
+        - com.ebmwebsourcing.deprecated.oasis-ws-resourcelifetime -> *
+        - com.ebmwebsourcing.* -> *
+        
         
 - petalslinkrelease:
     type: iBiblio
     root: "http://maven.petalslink.com/public/"
+    
+- petalslinkothers:
+    type: iBiblio
+    root: "http://maven.petalslink.com/others/"
+    contains:
+        - net.sf.saxon -> saxonhe

@@ -27,10 +27,7 @@ public class WebSocket extends WebSocketController {
 			Message message = await(liveStream.nextEvent());
 			if (message != null) {
 				String json = new Gson().toJson(message);
-				System.out.println("Data to send : " + json);
 				outbound.send(json);
-			} else {
-				System.out.println("Message is null... Should not happen...");
 			}
 		}
 	}
